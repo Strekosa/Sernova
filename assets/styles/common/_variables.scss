@@ -1,0 +1,19 @@
+/** Import Bootstrap functions */
+/* stylelint-disable */
+// @import "~bootstrap/scss/functions";
+// @import "~bootstrap/scss/variables";
+
+$black: #000;
+$white: #fff;
+$light-gray-1: #bdbcbc;
+$light-gray-2: #e3e3e3;
+$yellow: #FBBB10;
+$hover-yellow: #D9A009;
+$otc-blue: #0B4697;
+$fin-blue: #008AB4;
+$etd-blue: #0BBBEF;
+$bilateral: #48466A;
+
+$color-secondary: #999999;
+// $navbar-dark-toggler-icon-bg: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{str-replace(str-replace(#{$navbar-dark-color}, "(", " %28"), ")", " %29")}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+// $navbar-light-toggler-icon-bg: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{str-replace(str-replace(#{$navbar-light-color}, "(", " %28"), ")", " %29")}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");

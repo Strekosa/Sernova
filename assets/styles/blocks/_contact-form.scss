@@ -1,0 +1,79 @@
+.contact-form {
+  background: $etd-blue;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  margin-bottom: -40px;
+
+  @media screen and (max-width: 1024px) {
+    padding-top: 30px;
+    padding-bottom: 70px;
+  }
+
+  &__main {
+    gap: 20px;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  &__text {
+    color: $white;
+    max-width: 538px;
+    width: 100%;
+  }
+
+  &__title {
+    margin-bottom: 40px;
+
+    @media screen and (max-width: 768px) {
+      margin-bottom: 16px;
+    }
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @media screen and (max-width: 768px) {
+      gap: 10px;
+    }
+
+    a {
+      font-weight: 600;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background-color: $white;
+        transition: width 0.3s ease;
+      }
+
+      &:hover,
+      &:focus,
+      &.active {
+        &::before {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &__form {
+    max-width: 650px;
+    width: 100%;
+
+    form {
+      max-width: 538px;
+      min-width: 350px;
+    }
+  }
+}

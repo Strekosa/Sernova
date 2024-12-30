@@ -1,0 +1,64 @@
+@import "common/variables";
+
+/** Import everything from common */
+@import "common/mixins";
+@import "common/global";
+@import "common/grid";
+@import "common/typography";
+@import "common/normalize";
+
+/** Import everything from autoload */
+@import "./autoload/**/*";
+
+/** Import everything from layouts */
+@import "layouts/header";
+@import "layouts/footer";
+@import "layouts/pages";
+@import "layouts/404";
+@import "layouts/single-careers";
+@import "layouts/single-solutions";
+@import "layouts/single";
+
+/** Import everything from components */
+@import "./components/buttons";
+@import "./components/forms";
+@import "components/modal";
+@import "./components/search";
+
+/** Import everything from page-templates */
+@import "./page-templates/doc-template";
+
+/** Import everything from section */
+@import "blocks/spacer";
+@import "blocks/hero";
+@import "blocks/top-banner";
+@import "blocks/cta";
+@import "blocks/cta-2";
+@import "blocks/text";
+@import "blocks/table";
+@import "blocks/description";
+@import "blocks/brands";
+@import "blocks/team";
+@import "blocks/side-by-side";
+@import "blocks/advantages";
+@import "blocks/features";
+@import "blocks/testimonials";
+@import "blocks/contacts";
+@import "blocks/contact-form";
+@import "blocks/map";
+@import "blocks/careers";
+@import "blocks/resources";
+@import "blocks/partners";
+@import "blocks/principles";
+
+/**
+ * Import npm dependencies
+ *
+ * Prefix your imports with `~` to grab from node_modules/
+ * @see https://github.com/webpack-contrib/sass-loader#imports
+ */
+// @import "~some-node-module";
+
+// Import Slick
+@import "~slick-carousel/slick/slick.scss";
+@import "~slick-carousel/slick/slick-theme.scss";

@@ -1,0 +1,21 @@
+.not-found {
+  flex-grow: 1;
+}
+
+.error-404 {
+  padding: 108px 0 0;
+  flex-grow: 1;
+
+  &__breadcrumbs {
+    margin: 24px 0 80px;
+  }
+
+  &__content {
+    padding: 80px 0;
+    flex-grow: 1;
+  }
+
+  &__title {
+    margin-bottom: 40px;
+  }
+}

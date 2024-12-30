@@ -1,0 +1,68 @@
+.hero {
+  background: $light-gray-2;
+  //padding-top: 190px;
+  //padding-bottom: 105px;
+  padding-top: 120px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+
+  @media screen and (max-width: 1024px) {
+    padding-top: 170px;
+    padding-bottom: 105px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-top: 94px;
+    padding-bottom: 40px;
+  }
+
+  &__main {
+    max-width: 819px;
+    width: 100%;
+
+    @media screen and (max-width: 768px) {
+      max-width: 100%;
+    }
+  }
+
+  &__title {
+    font-size: 64px;
+    line-height: 76.8px;
+    color: $otc-blue;
+    margin-bottom: 24px;
+
+    @media screen and (max-width: 1024px) {
+      font-size: 50px;
+      line-height: 66.8px;
+      margin-bottom: 24px;
+    }
+
+    @media screen and (max-width: 768px) {
+      font-size: 38px;
+      line-height: 45.6px;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  &__subtitle {
+    max-width: 432px;
+    margin-bottom: 24px;
+
+    @media screen and (max-width: 1024px) {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__button a {
+    @media screen and (max-width: 768px) {
+      padding: 3px 18px;
+    }
+  }
+
+  &__animation {
+    background: transparent;
+  }
+}

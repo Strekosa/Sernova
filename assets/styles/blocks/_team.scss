@@ -1,0 +1,146 @@
+.team {
+  background: $light-gray-2;
+  padding-top: 80px;
+  padding-bottom: 120px;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  margin-bottom: -40px;
+
+  @media screen and (max-width: 900px) {
+    padding-top: 60px;
+    padding-bottom: 100px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-top: 40px;
+    padding-bottom: 80px;
+  }
+
+  &__wrapp {
+    gap: 30px;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  &__heading {
+    max-width: 315px;
+    width: 100%;
+    gap: 20px;
+    padding-top: 14px;
+    border-top: 2px solid $yellow;
+    flex: 1 1 25%;
+
+    @media screen and (max-width: 900px) {
+      flex: 1 1 30%;
+      gap: 15px;
+    }
+
+    @media screen and (max-width: 451px) {
+      max-width: 100%;
+      flex: 1 1 100%;
+    }
+  }
+
+  &__title {
+    color: $otc-blue;
+  }
+
+  &__list {
+    max-width: 873px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 60px 40px;
+    flex: 1 1 75%;
+
+    @media screen and (max-width: 1200px) {
+      gap: 40px 20px;
+    }
+
+    @media screen and (max-width: 900px) {
+      grid-template-columns: 1fr 1fr;
+      flex: 1 1 70%;
+      gap: 30px 15px;
+    }
+
+    @media screen and (max-width: 451px) {
+      grid-template-columns: 1fr;
+      flex: 1 1 100%;
+      gap: 28px;
+    }
+  }
+
+  &__item {
+    &-image {
+      height: 264px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      transition: 0.3s ease-in-out all;
+
+      @media screen and (max-width: 1240px) {
+        max-height: 264px;
+
+        @include adaptiv-height(300, 130);
+      }
+
+      @media screen and (max-width: 1200px) {
+        max-height: 267px;
+
+        @include adaptiv-height(337, 65);
+      }
+
+      @media screen and (max-width: 900px) {
+        max-height: 284px;
+
+        @include adaptiv-height(470, 110);
+      }
+
+      @media screen and (max-width: 768px) {
+        max-height: 345px;
+
+        @include adaptiv-height(680, 155);
+      }
+
+      @media screen and (max-width: 451px) {
+        max-height: 423px;
+
+        @include adaptiv-height(1300, 320);
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &-name {
+      margin-bottom: 4px;
+
+      @media screen and (max-width: 900px) {
+        font-size: 18px;
+        line-height: 23px;
+      }
+    }
+
+    &-position {
+      font-size: 14px;
+      line-height: 21px;
+      font-weight: 300;
+
+      @media screen and (max-width: 900px) {
+        font-size: 12px;
+        line-height: 18px;
+      }
+    }
+
+    &:hover {
+      .team__item-image {
+        transform: scale(1.03);
+      }
+    }
+  }
+}

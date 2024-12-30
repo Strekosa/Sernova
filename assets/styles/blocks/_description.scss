@@ -1,0 +1,46 @@
+.description {
+  padding-top: 40px;
+  padding-bottom: 80px;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  margin-bottom: -40px;
+
+  @media screen and (max-width: 1024px) {
+    padding-top: 30px;
+    padding-bottom: 70px;
+  }
+
+  &__title {
+    margin-bottom: 20px;
+  }
+
+  &__text {
+    font-size: 20px;
+    line-height: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    &.background {
+      padding: 34px 24px;
+      border-radius: 8px;
+    }
+  }
+
+  &__file,
+  &__button {
+    margin-top: 28px;
+
+    a {
+      line-height: 16px;
+      padding: 16px 22px;
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      margin-right: 5px;
+    }
+  }
+}

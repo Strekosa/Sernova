@@ -1,0 +1,145 @@
+/** Contact form */
+.wpcf7 {
+  width: 100%;
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+
+    @media screen and (max-width: 1024px) {
+      gap: 16px;
+    }
+
+    label {
+      font-size: 14px;
+      line-height: 16px;
+      color: $white;
+      margin-bottom: 6px;
+      position: relative;
+    }
+
+    p {
+      width: 100%;
+    }
+
+    textarea {
+      height: 128px !important;
+    }
+
+    input:not(.wpcf7-submit),
+    textarea {
+      width: 100%;
+      height: fit-content;
+      color: $black;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background-color: $white;
+      box-sizing: border-box;
+      cursor: pointer;
+      outline: none;
+      padding: 17px 14px;
+      transition: 0.2s ease all;
+
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 16px;
+        line-height: 18px;
+      }
+
+      &:hover {
+        border: 1px solid $otc-blue;
+      }
+    }
+
+    input:not(:placeholder-shown):not(.wpcf7-submit) {
+      border-color: $otc-blue;
+      color: $otc-blue;
+    }
+
+    input:not(.wpcf7-submit):focus {
+      border-color: $otc-blue;
+      caret-color: $otc-blue;
+    }
+
+    input:focus::placeholder {
+      color: transparent;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      height: 58px;
+      font-weight: 400;
+      line-height: 40px;
+      padding: 8px 24px;
+      border: 1px solid $yellow;
+      border-radius: 8px;
+      background: $yellow;
+      color: $black;
+      transition: 0.3s ease-in-out;
+      box-sizing: border-box;
+      cursor: pointer;
+      outline: none;
+      margin: 0 auto;
+
+      &.pressed {
+        background: $light-gray-1;
+      }
+
+      &.disabled {
+        background: $light-gray-2;
+      }
+
+      &:hover {
+        background: $hover-yellow;
+      }
+
+      @media screen and (max-width: 1024px) {
+        margin-top: 10px;
+      }
+
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+    }
+
+    input.wpcf7-not-valid {
+      border-color: red !important;
+    }
+
+    .wpcf7-response-output {
+      margin: 0;
+      padding: 12px;
+      min-height: 48px;
+      color: $white;
+      border-radius: 6px;
+      border-color: $white !important;
+    }
+
+    .wpcf7-spinner {
+      display: none;
+    }
+
+    .wpcf7-not-valid-tip {
+      //position: absolute;
+      //top: 50%;
+      //left: 50px;
+      //transform: translate(0, -50%);
+      position: initial;
+    }
+
+    .wpcf7-form-control-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &.submitting {
+      input[type="submit"] {
+        background: $light-gray-2;
+        border: 1px solid transparent;
+      }
+    }
+  }
+}

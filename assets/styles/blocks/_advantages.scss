@@ -1,0 +1,130 @@
+.advantages {
+  padding-top: 40px;
+  padding-bottom: 80px;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  margin-bottom: -40px;
+
+  &__heading {
+    margin-bottom: 28px;
+    color: $white;
+  }
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    margin-right: 5px;
+    flex-shrink: 0;
+
+    @media screen and (max-width: 768px) {
+      width: 46px;
+      height: 46px;
+    }
+  }
+
+  &__subtitle {
+    //max-width: 871px;
+    margin-top: 28px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
+
+    @media screen and (max-width: 768px) {
+      font-size: 16px;
+      line-height: 22.4px;
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+
+    @media screen and (max-width: 1024px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media screen and (max-width: 576px) {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  &__item {
+    padding: 34px 20px;
+    background: $white;
+    border-radius: 8px;
+    border-bottom: 5px solid $yellow;
+
+    @media screen and (max-width: 576px) {
+      padding: 24px;
+    }
+
+    &-inner {
+      max-width: 345px;
+      width: 100%;
+
+      @media screen and (max-width: 576px) {
+        max-width: 100%;
+      }
+    }
+
+    &-top {
+      margin-bottom: 24px;
+      min-height: 72px;
+
+      @media screen and (max-width: 768px) {
+        min-height: 52px;
+        margin-bottom: 20px;
+      }
+
+      @media screen and (max-width: 576px) {
+        margin-bottom: 16px;
+        min-height: fit-content;
+      }
+    }
+
+    &-icon {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      margin-right: 10px;
+    }
+
+    &-title {
+      background: transparent;
+    }
+
+    &-text {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      ul {
+        list-style-type: disc;
+        padding-inline-start: 20px;
+
+        li {
+          list-style-type: disc;
+        }
+      }
+
+      a {
+        color: $otc-blue;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .two-columns {
+    grid-template-columns: 1fr 1fr;
+
+    .advantages__item {
+      height: min-content;
+
+      &-inner {
+        max-width: 582px;
+      }
+    }
+  }
+}

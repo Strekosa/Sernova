@@ -1,0 +1,128 @@
+.single-careers {
+  background: $otc-blue;
+  padding-top: 108px;
+
+  &__breadcrumbs {
+    margin: 0 auto 80px;
+  }
+
+  &__heading {
+    margin-bottom: 40px;
+    color: $white;
+  }
+
+  &__title {
+    padding-bottom: 24px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid $yellow;
+  }
+
+  &__info {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  &__taxonomy {
+    &-separator:last-child {
+      display: none;
+    }
+  }
+
+  &__main {
+    background: $white;
+    padding-top: 40px;
+    padding-bottom: 120px;
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+    margin-bottom: -40px;
+
+    @media screen and (max-width: 768px) {
+      padding-bottom: 80px;
+    }
+
+    &-wrapp {
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
+    }
+  }
+
+  &__employment {
+    margin-right: 30px;
+    flex-shrink: 0;
+
+    @media screen and (max-width: 768px) {
+      margin-right: 30px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-type {
+      font-weight: 600;
+      margin-bottom: 16px;
+
+      @media screen and (max-width: 576px) {
+        margin-bottom: 10px;
+      }
+    }
+
+    &-schedule {
+      font-weight: 300;
+    }
+  }
+
+  &__content {
+    max-width: 762px;
+
+    .text {
+      padding-top: 0;
+      padding-bottom: 0;
+
+      &__content {
+        max-width: 650px;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin-top: 0;
+        margin-bottom: 12px;
+
+        @media screen and (max-width: 1024px) {
+          margin-bottom: 12px;
+        }
+
+        @media (max-width: 768px) {
+          margin-bottom: 12px;
+        }
+      }
+
+      ul:not(:last-child) {
+        margin-bottom: 40px;
+      }
+    }
+  }
+
+  &__bottom {
+    margin-top: 40px;
+
+    &-text {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+  }
+
+  &__button {
+    width: 100% !important;
+
+    svg {
+      margin-right: 5px;
+    }
+
+    a {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

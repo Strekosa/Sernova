@@ -1,0 +1,42 @@
+<?php
+/**
+ * Block Name: Brands
+ * Description: Brands block managed with ACF.
+ * Category: common
+ * Icon: format-image
+ * Keywords: brands acf block
+ * Supports: { "align":false, "anchor":true }
+ *
+ * @package sernova
+ *
+ * @var array $block
+ */
+
+$slug = str_replace('acf/', '', $block['name']);
+$block_id = $slug . '-' . $block['id'];
+$align_class = $block['align'] ? 'align' . $block['align'] : '';
+$custom_class = isset($block['className']) ? $block['className'] : '';
+
+$title = get_field('title');
+$slider = get_field('brands_list');
+?>
+<section
+		id="<?php echo $block_id; ?>"
+		class="<?php echo $slug; ?> <?php echo $align_class; ?> <?php echo $custom_class; ?>">
+	<div class="<?php echo $slug; ?>__main">
+
+		<?php
+		// check if the nested repeater field has rows of data
+		if (have_rows('brands_list')):
+			echo '<div class="brands-slider">';
+
+			// loop through the rows of data
+			foreach ($slider as $slide) {
+				echo '<div class="brands-item flex align-center justify-center"><img src="' . $slide['url'] . '" alt="' . $slide['alt'] . '"></div>';
+			}
+			echo '</div>';
+			?>
+		<?php endif; ?>
+
+	</div>
+</section>

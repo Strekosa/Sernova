@@ -1,0 +1,58 @@
+.map {
+  background: $otc-blue;
+  padding: 108px 0 80px;
+  margin-bottom: -40px;
+
+  @media screen and (max-width: 768px) {
+    padding-top: 82px;
+  }
+
+  &__wrapp {
+    @media screen and (max-width: 768px) {
+      max-width: 100%;
+    }
+  }
+
+  &__breadcrumbs {
+    margin-bottom: 40px;
+    color: $white;
+  }
+
+  &__map {
+    //margin-bottom: 40px;
+    max-height: 541px;
+
+    img {
+      object-fit: contain;
+      max-height: 541px;
+    }
+  }
+
+  &__markers {
+    gap: 12px;
+    margin-top: -132px;
+  }
+
+  &__marker {
+    &-icon {
+      width: 27px;
+      height: 24px;
+      margin-right: 12px;
+
+      @media screen and (max-width: 768px) {
+        width: 20px;
+        height: 18px;
+        margin-right: 8px;
+      }
+    }
+
+    &-title {
+      color: $white;
+
+      @media screen and (max-width: 768px) {
+        font-size: 12px;
+        line-height: 18px;
+      }
+    }
+  }
+}
