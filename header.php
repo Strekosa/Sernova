@@ -161,7 +161,6 @@
 
 			</div>
 		</div>
-		<h2>ffff</h2>
 	</div>
 
 </header><!-- .banner -->

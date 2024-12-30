@@ -37,40 +37,6 @@ $title_color = get_field('title_color');
 			</h2>
 		<?php endif; ?>
 
-<!--		--><?php
-//		// check if the nested repeater field has rows of data
-//		if (have_rows('features_list')):
-//			$counter = 1;
-//			?>
-<!--			<div class="--><?php //echo $slug; ?><!--__list">-->
-<!--				--><?php //while (have_rows('features_list')): the_row();
-//					$icon = get_sub_field('icon');
-//					$title = get_sub_field('title');
-//					?>
-<!--					<div class="--><?php //echo $slug; ?><!--__item flex align-center">-->
-<!--						--><?php //if ($icon): ?>
-<!--							<div class="--><?php //echo $slug; ?><!--__item-icon flex column justify-center align-center">-->
-<!--								<img src="--><?php //echo esc_url($icon['url']); ?><!--"-->
-<!--									 alt="--><?php //echo esc_attr($icon['alt']); ?><!--"/>-->
-<!--							</div>-->
-<!--						--><?php //else: ?>
-<!--							<div class="--><?php //echo $slug; ?><!--__item-counter flex column justify-center align-center">-->
-<!--								--><?php //echo $counter; ?>
-<!--							</div>-->
-<!--						--><?php //endif; ?>
-<!---->
-<!--						--><?php //if ($title): ?>
-<!--							<p class="--><?php //echo $slug; ?><!--__item-title">-->
-<!--								--><?php //echo $title; ?>
-<!--							</p>-->
-<!--						--><?php //endif; ?>
-<!--					</div>-->
-<!--					--><?php
-//					$counter++;
-//				endwhile; ?>
-<!--			</div>-->
-<!--		--><?php //endif; ?>
-
 		<?php
 		render_repeater_list('features_list', $slug);
 		?>

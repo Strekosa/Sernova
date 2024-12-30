@@ -254,8 +254,9 @@ function custom_search_redirect() {
 	}
 }
 add_action('template_redirect', 'custom_search_redirect');
+
 ///////////////////////////////////////////////////////////////
-///
+/// Repeater function for features and principles
 function render_repeater_list($field_name, $slug) {
 	if (have_rows($field_name)):
 		$counter = 1;
@@ -286,3 +287,4 @@ function render_repeater_list($field_name, $slug) {
 		echo '</div>';
 	endif;
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
