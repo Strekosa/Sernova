@@ -15,7 +15,6 @@ if ( ! function_exists( 'studly_case' ) ) {
 	 */
 	function studly_case( $value ) {
 		$value = ucwords( str_replace( [ '-', '_' ], ' ', $value ) );
-
 		return str_replace( ' ', '', $value );
 	}
 }
@@ -43,7 +42,7 @@ if ( ! function_exists( 'snake_case' ) ) {
 	 */
 	function snake_case( $value, $delimiter = '_' ) {
 		static $snake_cache = [];
-		$key                = $value . $delimiter;
+		$key = $value . $delimiter;
 
 		if ( isset( $snake_cache[ $key ] ) ) {
 			return $snake_cache[ $key ];
@@ -53,7 +52,6 @@ if ( ! function_exists( 'snake_case' ) ) {
 			$value = strtolower( preg_replace( '/(.)(?=[A-Z])/', '$1' . $delimiter, $value ) );
 		}
 
-		// phpcs:ignore
 		return $snake_cache[ $key ] = $value;
 	}
 }
@@ -97,30 +95,28 @@ if ( ! function_exists( 'is_closure' ) ) {
 	}
 }
 
-if ( ! function_exists( 'array_get' ) ) {
+if ( ! function_exists( 'get' ) ) {
 	/**
 	 * Get an item from an array using "dot" notation.
 	 *
-	 * @param  array  $array array to get
+	 * @param  array  $array array
 	 * @param  string $key key
 	 * @param  mixed  $default default
 	 * @return mixed
 	 */
-	function array_get( $array, $key, $default = null ) {
-		if ( is_null( $key ) ) { return $array;
+	function get( $array, $key, $default = null ) {
+		if ( is_null( $key ) ) {
+			return $array;
 		}
-
-		if ( isset( $array[ $key ] ) ) { return $array[ $key ];
+		if ( isset( $array[ $key ] ) ) {
+			return $array[ $key ];
 		}
-
 		foreach ( explode( '.', $key ) as $segment ) {
 			if ( ! is_array( $array ) || ! array_key_exists( $segment, $array ) ) {
 				return value( $default );
 			}
-
 			$array = $array[ $segment ];
 		}
-
 		return $array;
 	}
 }
@@ -167,30 +163,6 @@ if ( ! function_exists( 'array_pull' ) ) {
 	}
 }
 
-if ( ! function_exists( 'get' ) ) {
-	/**
-	 * Get an item from an array using "dot" notation.
-	 *
-	 * @param  array  $array array
-	 * @param  string $key key
-	 * @param  mixed  $default default
-	 * @return mixed
-	 */
-	function get( $array, $key, $default = null ) {
-		if ( is_null( $key ) ) { return $array;
-		}
-		if ( isset( $array[ $key ] ) ) { return $array[ $key ];
-		}
-		foreach ( explode( '.', $key ) as $segment ) {
-			if ( ! is_array( $array ) || ! array_key_exists( $segment, $array ) ) {
-				return value( $default );
-			}
-			$array = $array[ $segment ];
-		}
-		return $array;
-	}
-}
-
 if ( ! function_exists( 'forget' ) ) {
 	/**
 	 * Remove one or many array items from a given array using "dot" notation.
@@ -211,8 +183,7 @@ if ( ! function_exists( 'forget' ) ) {
 				}
 			}
 			unset( $array[ array_shift( $parts ) ] );
-			// clean up after each pass
-			$array =& $original;
+			$array =& $original; // Restore reference.
 		}
 	}
 }
@@ -237,7 +208,7 @@ if ( ! function_exists( 'd' ) ) {
 	 * @return void
 	 */
 	function d( ...$args ) {
-		var_dump( ...$args ); // phpcs:ignore
+		var_dump( ...$args );
 	}
 }
 
@@ -264,10 +235,9 @@ if ( ! function_exists( 'asset_path' ) ) {
 	function asset_path( $asset ) {
 		if ( file_exists( ( get_template_directory() . '/dist/assets.json' ) ) ) {
 			$json = json_decode( file_get_contents( get_template_directory() . '/dist/assets.json' ), true );
-			return get_template_directory_uri() . '/dist/' . array_get( $json, $asset );
+			return get_template_directory_uri() . '/dist/' . get( $json, $asset );
 		} else {
 			return get_template_directory_uri() . '/dist/' . $asset;
 		}
-
 	}
 }
