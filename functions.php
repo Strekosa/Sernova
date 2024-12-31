@@ -29,6 +29,7 @@ $theme_includes = [
 	'/lib/acf_blocks_loader.php',              // ACF Blocks Loader
 	'/lib/wp_dashboard_customizer.php',        // WP Dashboard customizer
 	'/lib/breadcrumbs.php',                    // Breadcrumbs
+	'/lib/menu-category-links.php',            // Menu category links
 	'/lib/ajax-filter-careers.php',            // Ajax Filter Careers
 	'/lib/ajax-filter-posts.php',            // Ajax Filter Careers
 ];
@@ -154,58 +155,19 @@ add_filter('rest_authentication_errors', function ($result) {
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function replace_category_links_in_menu($items) {
-	foreach ($items as &$item) {
-		if ($item->object === 'category') {
-			$category = get_category($item->object_id);
-
-			if ($category) {
-				$item->url = home_url('/resources/?category=' . $category->slug);
-			}
-		}
-	}
-	return $items;
-}
-add_filter('wp_get_nav_menu_items', 'replace_category_links_in_menu', 10, 2);
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// Filter to get search results by scrolling to a word
-//function custom_search_redirect() {
-//	if (is_search() && !empty(get_search_query())) {
-//		global $wpdb;
-//		$search_query = sanitize_text_field(get_search_query());
+//function replace_category_links_in_menu($items) {
+//	foreach ($items as &$item) {
+//		if ($item->object === 'category') {
+//			$category = get_category($item->object_id);
 //
-//		// SQL query to search all pages and posts
-//		$results = $wpdb->get_results(
-//			$wpdb->prepare(
-//				"
-//                SELECT ID, post_title, post_type
-//                FROM {$wpdb->posts}
-//                WHERE post_status = 'publish'
-//                AND (post_title LIKE %s OR post_content LIKE %s)
-//                ",
-//				'%' . $wpdb->esc_like($search_query) . '%',
-//				'%' . $wpdb->esc_like($search_query) . '%'
-//			)
-//		);
-//
-//		if (!empty($results)) {
-//			$redirect_url = add_query_arg('highlight', urlencode($search_query), get_permalink($results[0]->ID));
-//			wp_redirect($redirect_url);
-//			exit;
-//		} else {
-//			global $wp_query;
-//			$wp_query->set_404();
-//			status_header(404);
-//			nocache_headers();
-//			include(get_query_template('404'));
-//			exit;
+//			if ($category) {
+//				$item->url = home_url('/resources/?category=' . $category->slug);
+//			}
 //		}
 //	}
+//	return $items;
 //}
-//add_action('template_redirect', 'custom_search_redirect');
-
+//add_filter('wp_get_nav_menu_items', 'replace_category_links_in_menu', 10, 2);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
