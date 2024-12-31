@@ -75,7 +75,7 @@
   }
 
   &-heading {
-    margin-bottom: 25px;
+    margin-bottom: 28px;
 
     @media screen and (max-width: 768px) {
       margin-bottom: 28px;
@@ -104,6 +104,9 @@
 
   &-text {
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 
   &-socials {

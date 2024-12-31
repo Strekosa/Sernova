@@ -61,7 +61,7 @@
     }
 
     &-inner {
-      max-width: 345px;
+      max-width: 360px;
       width: 100%;
 
       @media screen and (max-width: 576px) {
@@ -118,6 +118,11 @@
 
   .two-columns {
     grid-template-columns: 1fr 1fr;
+
+    @media screen and (max-width: 576px) {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
 
     .advantages__item {
       height: min-content;
