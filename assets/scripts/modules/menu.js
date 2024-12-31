@@ -1,163 +1,135 @@
-jQuery(document).ready(() => {
+document.addEventListener('DOMContentLoaded', function () {
+	"use strict";
 
-	// Menu
-	"use strict"
+	const body = document.body;
+	const iconMenu = document.querySelector('.navbar-toggler');
+	const menuBody = document.querySelector('.navbar-collapse');
+
+	// Function for checking mobile devices
 	const isMobile = {
-		Android: function () {
-			return navigator.userAgent.match(/Android/i);
-		},
-		Opera: function () {
-			return navigator.userAgent.match(/Opera Mini/i);
-		},
-		Windows: function () {
-			return navigator.userAgent.match(/IEMobile/i);
-		},
-		BlackBerry: function () {
-			return navigator.userAgent.match(/BlackBerry/i);
-		},
-		iOS: function () {
-			return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-		},
+		Android: () => navigator.userAgent.match(/Android/i),
+		Opera: () => navigator.userAgent.match(/Opera Mini/i),
+		Windows: () => navigator.userAgent.match(/IEMobile/i),
+		BlackBerry: () => navigator.userAgent.match(/BlackBerry/i),
+		iOS: () => navigator.userAgent.match(/iPhone|iPad|iPod/i),
 		any: function () {
 			return (
-				isMobile.Android() ||
-				isMobile.Opera() ||
-				isMobile.BlackBerry() ||
-				isMobile.iOS() ||
-				isMobile.Windows()
+				this.Android() ||
+				this.Opera() ||
+				this.BlackBerry() ||
+				this.iOS() ||
+				this.Windows()
 			);
 		},
+	};
+
+	// Function to reset active submenus
+	function resetActiveSubMenus() {
+		const activeSubMenus = document.querySelectorAll('.sub-menu.active');
+		const activeMenuArrows = document.querySelectorAll('.nav-desc.active');
+		const activeMenuItems = document.querySelectorAll('.menu-item.active');
+
+		activeSubMenus.forEach(subMenu => {
+			subMenu.style.maxHeight = '0';
+			subMenu.classList.remove('active');
+		});
+
+		activeMenuArrows.forEach(arrow => {
+			arrow.classList.remove('active');
+		});
+
+		activeMenuItems.forEach(item => {
+			item.classList.remove('active');
+		});
 	}
 
+	// Logic for mobile devices
 	if (isMobile.any()) {
-		document.body.classList.add('_touch');
+		body.classList.add('_touch');
+		const menuArrows = document.querySelectorAll('.nav-desc');
 
-		let menuArrows = document.querySelectorAll('.nav-desc');
-		if (menuArrows.length > 0) {
-			for (let i = 0; i < menuArrows.length; i++) {
-				let thisArrow = menuArrows[i];
-				let subMenu = menuArrows[i].nextElementSibling;
-				let parentMenuItem = menuArrows[i].parentElement;
+		menuArrows.forEach(arrow => {
+			const subMenu = arrow.nextElementSibling;
+			const parentMenuItem = arrow.parentElement;
 
-				// Add smooth transition in CSS
-				// subMenu.style.transition = 'max-height 0.3s ease';
-				// subMenu.style.overflow = 'hidden';
-				// subMenu.style.maxHeight = '0';
+			arrow.addEventListener('click', function () {
+				const windowHeight = window.innerHeight;
+				const maxMenuHeight = windowHeight - arrow.getBoundingClientRect().bottom;
 
-				thisArrow.addEventListener("click", function () {
-					const windowHeight = window.innerHeight; // Высота окна
+				if (subMenu.style.maxHeight === '0px' || !subMenu.style.maxHeight) {
+					const subMenuHeight = subMenu.scrollHeight;
 
-					const maxMenuHeight = windowHeight - thisArrow.getBoundingClientRect().bottom;
-
-					if (subMenu.style.maxHeight === '0px' || !subMenu.style.maxHeight) {
-						let subMenuHeight = subMenu.scrollHeight;
-
-						if (subMenuHeight > maxMenuHeight) {
-							subMenu.style.maxHeight = maxMenuHeight + 'px';
-							subMenu.style.overflowY = 'auto';
-						} else {
-							subMenu.style.maxHeight = subMenuHeight + 'px';
-							subMenu.style.overflowY = 'hidden';
-						}
-
-						subMenu.classList.add('active');
-						thisArrow.classList.add('active');
-						parentMenuItem.classList.add('active');
+					if (subMenuHeight > maxMenuHeight) {
+						subMenu.style.maxHeight = maxMenuHeight + 'px';
+						subMenu.style.overflowY = 'auto';
 					} else {
-						subMenu.style.maxHeight = '0';
-						subMenu.classList.remove('active');
-						thisArrow.classList.remove('active');
-						parentMenuItem.classList.remove('active');
+						subMenu.style.maxHeight = subMenuHeight + 'px';
+						subMenu.style.overflowY = 'hidden';
 					}
-				});
-			}
-		}
+
+					subMenu.classList.add('active');
+					arrow.classList.add('active');
+					parentMenuItem.classList.add('active');
+				} else {
+					subMenu.style.maxHeight = '0';
+					subMenu.classList.remove('active');
+					arrow.classList.remove('active');
+					parentMenuItem.classList.remove('active');
+				}
+			});
+		});
 	} else {
-		document.body.classList.add('_pc');
+		body.classList.add('_pc');
+		const menuItems = document.querySelectorAll('.menu-item-has-children');
 
-		let menuItems = document.querySelectorAll('.menu-item-has-children');
-		menuItems.forEach(function (menuItem) {
-			let thisArrow = menuItem.querySelector('.nav-desc');
-			let subMenu = menuItem.querySelector('.sub-menu');
-			// let link = menuItem.querySelector('a');
+		menuItems.forEach(menuItem => {
+			const arrow = menuItem.querySelector('.nav-desc');
+			const subMenu = menuItem.querySelector('.sub-menu');
 
-			thisArrow.addEventListener("click", function (e) {
+			arrow.addEventListener('click', function (e) {
 				e.preventDefault();
 
-				menuItems.forEach(function (item) {
-					let otherArrow = item.querySelector('.nav-desc');
-					let otherSubMenu = item.querySelector('.sub-menu');
+				menuItems.forEach(item => {
+					const otherArrow = item.querySelector('.nav-desc');
+					const otherSubMenu = item.querySelector('.sub-menu');
+
 					if (item !== menuItem) {
 						otherArrow.classList.remove('active-hover');
 						otherSubMenu.classList.remove('active-hover');
 					}
 				});
 
-				if (thisArrow.classList.contains('active-hover')) {
-					thisArrow.classList.remove('active-hover');
+				if (arrow.classList.contains('active-hover')) {
+					arrow.classList.remove('active-hover');
 					subMenu.classList.remove('active-hover');
 				} else {
-					thisArrow.classList.add('active-hover');
+					arrow.classList.add('active-hover');
 					subMenu.classList.add('active-hover');
 				}
 			});
-
 		});
 	}
 
-	// Menu Burger
-	const iconMenu = document.querySelector('.navbar-toggler');
+	// Logic for a burger menu
 	if (iconMenu) {
-		const menuBody = document.querySelector('.navbar-collapse');
-		iconMenu.addEventListener("click", function () {
-			document.body.classList.toggle('lock');
+		iconMenu.addEventListener('click', function () {
+			body.classList.toggle('lock');
 			iconMenu.classList.toggle('open');
 			menuBody.classList.toggle('open');
 
 			if (!iconMenu.classList.contains('open')) {
-				let activeSubMenus = document.querySelectorAll('.sub-menu.active');
-				let activeMenuArrows = document.querySelectorAll('.nav-desc.active');
-				let activeMenuItems = document.querySelectorAll('.menu-item.active');
-
-				activeSubMenus.forEach(function (subMenu) {
-					subMenu.style.maxHeight = '0';
-					subMenu.classList.remove('active');
-				});
-
-				activeMenuArrows.forEach(function (arrow) {
-					arrow.classList.remove('active');
-				});
-
-				activeMenuItems.forEach(function (item) {
-					item.classList.remove('active');
-				});
+				resetActiveSubMenus();
 			}
 		});
 
 		const navLinks = menuBody.querySelectorAll('a');
-		for (let i = 0; i < navLinks.length; i++) {
-			navLinks[i].addEventListener('click', function () {
-				document.body.classList.remove('lock');
+		navLinks.forEach(link => {
+			link.addEventListener('click', function () {
+				body.classList.remove('lock');
 				iconMenu.classList.remove('open');
 				menuBody.classList.remove('open');
-
-				let activeSubMenus = document.querySelectorAll('.sub-menu.active');
-				let activeMenuArrows = document.querySelectorAll('.nav-desc.active');
-				let activeMenuItems = document.querySelectorAll('.menu-item.active');
-
-				activeSubMenus.forEach(function (subMenu) {
-					subMenu.style.maxHeight = '0';
-					subMenu.classList.remove('active');
-				});
-
-				activeMenuArrows.forEach(function (arrow) {
-					arrow.classList.remove('active');
-				});
-
-				activeMenuItems.forEach(function (item) {
-					item.classList.remove('active');
-				});
+				resetActiveSubMenus();
 			});
-		}
+		});
 	}
 });

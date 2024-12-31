@@ -3298,12 +3298,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-/* WEBPACK VAR INJECTION */(function(jQuery) {jQuery(document).ready(function () {
-  // Menu
+document.addEventListener('DOMContentLoaded', function () {
   "use strict";
 
+  var body = document.body;
+  var iconMenu = document.querySelector('.navbar-toggler');
+  var menuBody = document.querySelector('.navbar-collapse');
+
+  // Function for checking mobile devices
   var isMobile = {
     Android: function Android() {
       return navigator.userAgent.match(/Android/i);
@@ -3321,60 +3325,64 @@ document.addEventListener('DOMContentLoaded', function () {
       return navigator.userAgent.match(/iPhone|iPad|iPod/i);
     },
     any: function any() {
-      return isMobile.Android() || isMobile.Opera() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows();
+      return this.Android() || this.Opera() || this.BlackBerry() || this.iOS() || this.Windows();
     }
   };
+
+  // Function to reset active submenus
+  function resetActiveSubMenus() {
+    var activeSubMenus = document.querySelectorAll('.sub-menu.active');
+    var activeMenuArrows = document.querySelectorAll('.nav-desc.active');
+    var activeMenuItems = document.querySelectorAll('.menu-item.active');
+    activeSubMenus.forEach(function (subMenu) {
+      subMenu.style.maxHeight = '0';
+      subMenu.classList.remove('active');
+    });
+    activeMenuArrows.forEach(function (arrow) {
+      arrow.classList.remove('active');
+    });
+    activeMenuItems.forEach(function (item) {
+      item.classList.remove('active');
+    });
+  }
+
+  // Logic for mobile devices
   if (isMobile.any()) {
-    document.body.classList.add('_touch');
+    body.classList.add('_touch');
     var menuArrows = document.querySelectorAll('.nav-desc');
-    if (menuArrows.length > 0) {
-      var _loop = function _loop() {
-        var thisArrow = menuArrows[i];
-        var subMenu = menuArrows[i].nextElementSibling;
-        var parentMenuItem = menuArrows[i].parentElement;
-
-        // Add smooth transition in CSS
-        // subMenu.style.transition = 'max-height 0.3s ease';
-        // subMenu.style.overflow = 'hidden';
-        // subMenu.style.maxHeight = '0';
-
-        thisArrow.addEventListener("click", function () {
-          var windowHeight = window.innerHeight; // Высота окна
-
-          var maxMenuHeight = windowHeight - thisArrow.getBoundingClientRect().bottom;
-          if (subMenu.style.maxHeight === '0px' || !subMenu.style.maxHeight) {
-            var subMenuHeight = subMenu.scrollHeight;
-            if (subMenuHeight > maxMenuHeight) {
-              subMenu.style.maxHeight = maxMenuHeight + 'px';
-              subMenu.style.overflowY = 'auto';
-            } else {
-              subMenu.style.maxHeight = subMenuHeight + 'px';
-              subMenu.style.overflowY = 'hidden';
-            }
-            subMenu.classList.add('active');
-            thisArrow.classList.add('active');
-            parentMenuItem.classList.add('active');
+    menuArrows.forEach(function (arrow) {
+      var subMenu = arrow.nextElementSibling;
+      var parentMenuItem = arrow.parentElement;
+      arrow.addEventListener('click', function () {
+        var windowHeight = window.innerHeight;
+        var maxMenuHeight = windowHeight - arrow.getBoundingClientRect().bottom;
+        if (subMenu.style.maxHeight === '0px' || !subMenu.style.maxHeight) {
+          var subMenuHeight = subMenu.scrollHeight;
+          if (subMenuHeight > maxMenuHeight) {
+            subMenu.style.maxHeight = maxMenuHeight + 'px';
+            subMenu.style.overflowY = 'auto';
           } else {
-            subMenu.style.maxHeight = '0';
-            subMenu.classList.remove('active');
-            thisArrow.classList.remove('active');
-            parentMenuItem.classList.remove('active');
+            subMenu.style.maxHeight = subMenuHeight + 'px';
+            subMenu.style.overflowY = 'hidden';
           }
-        });
-      };
-      for (var i = 0; i < menuArrows.length; i++) {
-        _loop();
-      }
-    }
+          subMenu.classList.add('active');
+          arrow.classList.add('active');
+          parentMenuItem.classList.add('active');
+        } else {
+          subMenu.style.maxHeight = '0';
+          subMenu.classList.remove('active');
+          arrow.classList.remove('active');
+          parentMenuItem.classList.remove('active');
+        }
+      });
+    });
   } else {
-    document.body.classList.add('_pc');
+    body.classList.add('_pc');
     var menuItems = document.querySelectorAll('.menu-item-has-children');
     menuItems.forEach(function (menuItem) {
-      var thisArrow = menuItem.querySelector('.nav-desc');
+      var arrow = menuItem.querySelector('.nav-desc');
       var subMenu = menuItem.querySelector('.sub-menu');
-      // let link = menuItem.querySelector('a');
-
-      thisArrow.addEventListener("click", function (e) {
+      arrow.addEventListener('click', function (e) {
         e.preventDefault();
         menuItems.forEach(function (item) {
           var otherArrow = item.querySelector('.nav-desc');
@@ -3384,65 +3392,38 @@ document.addEventListener('DOMContentLoaded', function () {
             otherSubMenu.classList.remove('active-hover');
           }
         });
-        if (thisArrow.classList.contains('active-hover')) {
-          thisArrow.classList.remove('active-hover');
+        if (arrow.classList.contains('active-hover')) {
+          arrow.classList.remove('active-hover');
           subMenu.classList.remove('active-hover');
         } else {
-          thisArrow.classList.add('active-hover');
+          arrow.classList.add('active-hover');
           subMenu.classList.add('active-hover');
         }
       });
     });
   }
 
-  // Menu Burger
-  var iconMenu = document.querySelector('.navbar-toggler');
+  // Logic for a burger menu
   if (iconMenu) {
-    var menuBody = document.querySelector('.navbar-collapse');
-    iconMenu.addEventListener("click", function () {
-      document.body.classList.toggle('lock');
+    iconMenu.addEventListener('click', function () {
+      body.classList.toggle('lock');
       iconMenu.classList.toggle('open');
       menuBody.classList.toggle('open');
       if (!iconMenu.classList.contains('open')) {
-        var activeSubMenus = document.querySelectorAll('.sub-menu.active');
-        var activeMenuArrows = document.querySelectorAll('.nav-desc.active');
-        var activeMenuItems = document.querySelectorAll('.menu-item.active');
-        activeSubMenus.forEach(function (subMenu) {
-          subMenu.style.maxHeight = '0';
-          subMenu.classList.remove('active');
-        });
-        activeMenuArrows.forEach(function (arrow) {
-          arrow.classList.remove('active');
-        });
-        activeMenuItems.forEach(function (item) {
-          item.classList.remove('active');
-        });
+        resetActiveSubMenus();
       }
     });
     var navLinks = menuBody.querySelectorAll('a');
-    for (var _i2 = 0; _i2 < navLinks.length; _i2++) {
-      navLinks[_i2].addEventListener('click', function () {
-        document.body.classList.remove('lock');
+    navLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
+        body.classList.remove('lock');
         iconMenu.classList.remove('open');
         menuBody.classList.remove('open');
-        var activeSubMenus = document.querySelectorAll('.sub-menu.active');
-        var activeMenuArrows = document.querySelectorAll('.nav-desc.active');
-        var activeMenuItems = document.querySelectorAll('.menu-item.active');
-        activeSubMenus.forEach(function (subMenu) {
-          subMenu.style.maxHeight = '0';
-          subMenu.classList.remove('active');
-        });
-        activeMenuArrows.forEach(function (arrow) {
-          arrow.classList.remove('active');
-        });
-        activeMenuItems.forEach(function (item) {
-          item.classList.remove('active');
-        });
+        resetActiveSubMenus();
       });
-    }
+    });
   }
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 7 */
