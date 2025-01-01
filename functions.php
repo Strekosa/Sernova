@@ -30,8 +30,9 @@ $theme_includes = [
 	'/lib/wp_dashboard_customizer.php',        // WP Dashboard customizer
 	'/lib/breadcrumbs.php',                    // Breadcrumbs
 	'/lib/menu-category-links.php',            // Menu category links
+	'/lib/render-contact-item.php',            // Render contact item
 	'/lib/ajax-filter-careers.php',            // Ajax Filter Careers
-	'/lib/ajax-filter-posts.php',            // Ajax Filter Careers
+	'/lib/ajax-filter-posts.php',              // Ajax Filter Careers
 ];
 
 foreach ( $theme_includes as $file ) {
@@ -153,21 +154,6 @@ add_filter('rest_authentication_errors', function ($result) {
 
 	return $result;
 });
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//function replace_category_links_in_menu($items) {
-//	foreach ($items as &$item) {
-//		if ($item->object === 'category') {
-//			$category = get_category($item->object_id);
-//
-//			if ($category) {
-//				$item->url = home_url('/resources/?category=' . $category->slug);
-//			}
-//		}
-//	}
-//	return $items;
-//}
-//add_filter('wp_get_nav_menu_items', 'replace_category_links_in_menu', 10, 2);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
