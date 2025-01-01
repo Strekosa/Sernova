@@ -19,12 +19,14 @@ if ( ! class_exists( 'ACF_Field_Groups_Type' ) ) :
 		 * @var string
 		 */
 		private $taxonomy = 'acf-fg-type';
+
 		/**
 		 * ACF Field Group post type slug.
 		 *
 		 * @var string
 		 */
 		private $post_type = 'acf-field-group';
+
 		/**
 		 * Default terms which based on ACF Location Rules.
 		 *
@@ -33,19 +35,18 @@ if ( ! class_exists( 'ACF_Field_Groups_Type' ) ) :
 		private $default_terms = [ 'Template', 'Option', 'Post Type', 'Flexible Content', 'Block', 'Taxonomy', 'User', 'Menu Item' ];
 
 		/**
-		 * ACF_Field_Groups_Type constructor.
+		 * Constructor.
 		 */
 		public function __construct() {
 			add_action( 'init', [ $this, 'field_group_taxonomy' ] );
-			add_filter( 'manage_edit-acf-field-group_columns', [ $this, 'field_group_columns' ], 20, 1 );
+			add_filter( 'manage_edit-acf-field-group_columns', [ $this, 'field_group_columns' ], 20 );
 			add_action( 'manage_acf-field-group_posts_custom_column', [ $this, 'field_group_columns_html' ], 20, 2 );
 			add_action( 'restrict_manage_posts', [ $this, 'field_group_filter' ], 10, 2 );
 			add_action( 'acf/input/admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 		}
 
 		/**
-		 * WP hook 'init'. Registers taxonomy and inserts default terms.
-		 * https://developer.wordpress.org/reference/hooks/init/
+		 * Registers taxonomy and inserts default terms.
 		 */
 		public function field_group_taxonomy() {
 			register_taxonomy(
@@ -63,56 +64,49 @@ if ( ! class_exists( 'ACF_Field_Groups_Type' ) ) :
 				]
 			);
 
-			/**
-			 * Insert default terms.
-			 */
 			foreach ( $this->default_terms as $default_term ) {
 				wp_insert_term( $default_term, $this->taxonomy );
 			}
 		}
 
 		/**
-		 * WP filter 'manage_{$screen->id}_columns'.
-		 * https://developer.wordpress.org/reference/hooks/manage_screen-id_columns/
+		 * Modifies admin columns for ACF Field Groups.
 		 *
-		 * @param array $columns An array of column headers. Default empty.
+		 * @param array $columns An array of column headers.
 		 * @return array
 		 */
 		public function field_group_columns( $columns ) {
 			unset( $columns['taxonomy-acf-fg-type'] );
-			$new = [];
+			$new_columns = [];
+
 			foreach ( $columns as $key => $title ) {
 				if ( $key === 'acf-fg-status' ) {
-					$new[ $this->taxonomy ] = __( 'Type' );
+					$new_columns[ $this->taxonomy ] = __( 'Type' );
 				}
-				$new[ $key ] = $title;
+				$new_columns[ $key ] = $title;
 			}
-			return $new;
+
+			return $new_columns;
 		}
 
 		/**
-		 * WP hook 'manage_{$post->post_type}_posts_custom_column'.
-		 * https://developer.wordpress.org/reference/hooks/manage_post-post_type_posts_custom_column/
+		 * Renders custom column content.
 		 *
-		 * @param string $column The name of the column to display.
-		 * @param int    $post_id The current post ID.
+		 * @param string $column The column name.
+		 * @param int    $post_id The post ID.
 		 */
 		public function field_group_columns_html( $column, $post_id ) {
-			switch ( $column ) {
-				case $this->taxonomy:
-					$terms = get_the_terms( $post_id, $this->taxonomy );
-					if ( $terms ) {
-						$term_names = wp_list_pluck( $terms, 'name' );
-						$terms_str  = implode( ', ', $term_names );
-						echo $terms_str;
-					}
-					break;
+			if ( $column === $this->taxonomy ) {
+				$terms = get_the_terms( $post_id, $this->taxonomy );
+
+				if ( $terms ) {
+					echo implode( ', ', wp_list_pluck( $terms, 'name' ) );
+				}
 			}
 		}
 
 		/**
-		 * WP hook 'restrict_manage_posts'.
-		 * https://developer.wordpress.org/reference/hooks/restrict_manage_posts/
+		 * Adds a filter dropdown for taxonomy in admin.
 		 *
 		 * @param string $post_type The post type slug.
 		 * @param string $which The location of the extra table nav markup.
@@ -122,54 +116,61 @@ if ( ! class_exists( 'ACF_Field_Groups_Type' ) ) :
 				return;
 			}
 
-			$taxonomies = [ $this->taxonomy ];
-			foreach ( $taxonomies as $taxonomy_slug ) {
-				$taxonomy_obj  = get_taxonomy( $taxonomy_slug );
-				$taxonomy_name = $taxonomy_obj->labels->name;
-				$terms         = get_terms( $taxonomy_slug );
+			$taxonomy_obj  = get_taxonomy( $this->taxonomy );
+			$taxonomy_name = $taxonomy_obj->labels->name;
+			$terms         = get_terms( $this->taxonomy );
 
-				echo '<style>#acf-field-group-wrap .tablenav { display: block; } #acf-field-group-wrap .tablenav #filter-by-date, #acf-field-group-wrap .tablenav .bulkactions { display: none; }</style>';
-				echo '<select name="' . $taxonomy_slug . '" id="' . $taxonomy_slug . '" class="postform">';
-				echo '<option value="">' . $taxonomy_name . '</option>';
-				foreach ( $terms as $term ) {
-					printf(
-						'<option value="%1$s" %2$s>%3$s (%4$s)</option>',
-						$term->slug,
-						isset( $_GET[ $taxonomy_slug ] ) && ( $_GET[ $taxonomy_slug ] === $term->slug ) ? ' selected="selected"' : '', // phpcs:ignore
-						$term->name,
-						$term->count
-					);
-				}
-				echo '</select>';
+			echo '<select name="' . esc_attr( $this->taxonomy ) . '" id="' . esc_attr( $this->taxonomy ) . '" class="postform">';
+			echo '<option value="">' . esc_html( $taxonomy_name ) . '</option>';
+
+			foreach ( $terms as $term ) {
+				printf(
+					'<option value="%1$s" %2$s>%3$s (%4$s)</option>',
+					esc_attr( $term->slug ),
+					selected( $_GET[ $this->taxonomy ] ?? '', $term->slug, false ),
+					esc_html( $term->name ),
+					esc_html( $term->count )
+				);
 			}
+
+			echo '</select>';
 		}
 
 		/**
-		 * WP hook 'acf/input/admin_enqueue_scripts'.
-		 * Used to enqueue scripts and styles on pages where ACF fields appear.
+		 * Enqueues scripts and styles for ACF admin.
 		 */
 		public function admin_enqueue_scripts() {
 			$dir_path = 'assets/flexible-content-thumbs/';
 			$dir_uri  = get_stylesheet_directory_uri() . '/' . $dir_path;
-			$dir      = new DirectoryIterator( locate_template( $dir_path ) );
-			$files    = [];
+			$files    = $this->get_directory_files( $dir_path );
+
+			wp_register_script( 'flexible-content-thumbs-js', $dir_uri . 'inc/script.js', [], '1.0.0', false );
+			wp_localize_script( 'flexible-content-thumbs-js', 'flexibleContentThumbs', [
+				'dirUri' => $dir_uri,
+				'files'  => $files,
+			] );
+			wp_enqueue_script( 'flexible-content-thumbs-js' );
+			wp_enqueue_style( 'flexible-content-thumbs-css', $dir_uri . 'inc/style.css', [], '1.0.0' );
+		}
+
+		/**
+		 * Retrieves files from a directory.
+		 *
+		 * @param string $dir_path Directory path.
+		 * @return array
+		 */
+		private function get_directory_files( $dir_path ) {
+			$dir  = new DirectoryIterator( locate_template( $dir_path ) );
+			$files = [];
+
 			foreach ( $dir as $file_info ) {
 				if ( ! $file_info->isDot() && ! $file_info->isDir() ) {
-					$module_name           = preg_replace( '/\\.[^.\\s]{3,4}$/', '', $file_info->getFilename() );
-					$files[ $module_name ] = $dir_uri . $file_info->getFilename();
+					$module_name           = pathinfo( $file_info->getFilename(), PATHINFO_FILENAME );
+					$files[ $module_name ] = get_stylesheet_directory_uri() . '/' . $dir_path . $file_info->getFilename();
 				}
 			}
-			wp_register_script( 'flexible-content-thumbs-js', get_stylesheet_directory_uri() . '/assets/flexible-content-thumbs/inc/script.js', false, '1.0.0', false );
-			wp_localize_script(
-				'flexible-content-thumbs-js',
-				'flexibleContentThumbs',
-				[
-					'dirUri' => $dir_uri,
-					'files'  => $files,
-				]
-			);
-			wp_enqueue_script( 'flexible-content-thumbs-js' );
-			wp_enqueue_style( 'flexible-content-thumbs-css', get_stylesheet_directory_uri() . '/assets/flexible-content-thumbs/inc/style.css', false, '1.0.0' );
+
+			return $files;
 		}
 	}
 
