@@ -17,44 +17,6 @@ $block_id = $slug . '-' . $block['id'];
 $align_class = $block['align'] ? 'align' . $block['align'] : '';
 $custom_class = isset($block['className']) ? $block['className'] : '';
 
-//function render_contact_item($slug, $contacts) {
-//	if ($contacts) {
-//		if (!empty($contacts['address'])) {
-//			echo '<p class="' . esc_attr($slug) . '__item-address">';
-//			echo '<span>' . __('Address:', THEME_TD) . '</span>';
-//			echo esc_html($contacts['address']);
-//			echo '</p>';
-//		}
-//
-//		if (!empty($contacts['phones']) && is_array($contacts['phones'])) {
-//			echo '<ul class="' . esc_attr($slug) . '__item-phones">';
-//			foreach ($contacts['phones'] as $phone_item) {
-//				$phone = $phone_item['phone'] ?? '';
-//				$phone_link = preg_replace('/[^0-9+]/', '', $phone);
-//				if ($phone) {
-//					echo '<li class="' . esc_attr($slug) . '__item-phones-item">';
-//					echo '<span>' . __('Phone:', THEME_TD) . '</span>';
-//					echo '<a class="dynamic-phone-link" href="tel:' . esc_attr($phone_link) . '" data-phone="' . esc_attr($phone_link) . '">';
-//					echo esc_html($phone);
-//					echo '</a></li>';
-//				}
-//			}
-//			echo '</ul>';
-//		}
-//
-//		if (!empty($contacts['emails']) && is_array($contacts['emails'])) {
-//			echo '<ul class="' . esc_attr($slug) . '__item-emails">';
-//			foreach ($contacts['emails'] as $email) {
-//				echo '<li class="' . esc_attr($slug) . '__item-emails-item">';
-//				echo '<span>' . __('Email:', THEME_TD) . '</span>';
-//				echo '<a href="mailto:' . esc_attr($email['email']) . '">';
-//				echo esc_html($email['email']);
-//				echo '</a></li>';
-//			}
-//			echo '</ul>';
-//		}
-//	}
-//}
 ?>
 
 <section
