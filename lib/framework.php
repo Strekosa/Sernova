@@ -70,85 +70,97 @@ class sernova_Navwalker extends Walker_Nav_Menu
 	 * @param array $args An array of arguments. @see wp_nav_menu()
 	 * @param int $id Current item ID.
 	 */
-	function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0)
-	{
-		global $wp_query;
-		$indent = ($depth > 0 ? str_repeat("\t", $depth) : ''); // code indent
+	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+		$indent = $depth > 0 ? str_repeat( "\t", $depth ) : ''; // Code indent.
 
-		// Depth-dependent classes.
-		$depth_classes = array(
-				($depth == 0 ? 'main-menu-item' : 'sub-menu-item'),
-				($depth >= 2 ? 'sub-sub-menu-item' : ''),
-				($depth % 2 ? 'menu-item-odd' : 'menu-item-even'),
-				'menu-item-depth-' . $depth
+		// Generate depth-dependent classes.
+		$depth_classes = array_filter( [
+				$depth === 0 ? 'main-menu-item' : 'sub-menu-item',
+				$depth >= 2 ? 'sub-sub-menu-item' : '',
+				$depth % 2 ? 'menu-item-odd' : 'menu-item-even',
+				'menu-item-depth-' . $depth,
+		] );
+		$depth_class_names = esc_attr( implode( ' ', $depth_classes ) );
+
+		// Apply custom or default classes.
+		$classes = (array) ( $item->classes ?? [] );
+		$class_names = esc_attr( implode( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) ) );
+
+		// Start building the HTML structure for menu items.
+		$output .= sprintf(
+				'%s<li id="nav-menu-item-%d" class="%s %s">',
+				$indent,
+				$item->ID,
+				$depth_class_names,
+				$class_names
 		);
-		$depth_class_names = esc_attr(implode(' ', $depth_classes));
 
-		// Passed classes.
-		$classes = empty($item->classes) ? array() : (array)$item->classes;
-		$class_names = esc_attr(implode(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item)));
+		// Prepare link attributes.
+		$attributes = array_filter( [
+				! empty( $item->attr_title ) ? sprintf( 'title="%s"', esc_attr( $item->attr_title ) ) : '',
+				! empty( $item->target ) ? sprintf( 'target="%s"', esc_attr( $item->target ) ) : '',
+				! empty( $item->xfn ) ? sprintf( 'rel="%s"', esc_attr( $item->xfn ) ) : '',
+				! empty( $item->url ) ? sprintf( 'href="%s"', esc_attr( $item->url ) ) : '',
+				sprintf( 'class="menu-link %s"', $depth > 0 ? 'sub-menu-link' : 'main-menu-link' ),
+		] );
 
-		// Build HTML.
-		$output .= $indent . '<li id="nav-menu-item-' . $item->ID . '" class="' . $depth_class_names . ' ' . $class_names . '">';
+		// Combine attributes into a string.
+		$attributes_string = implode( ' ', $attributes );
 
-		// Link attributes.
-		$attributes = !empty($item->attr_title) ? ' title="' . esc_attr($item->attr_title) . '"' : '';
-		$attributes .= !empty($item->target) ? ' target="' . esc_attr($item->target) . '"' : '';
-		$attributes .= !empty($item->xfn) ? ' rel="' . esc_attr($item->xfn) . '"' : '';
-		$attributes .= !empty($item->url) ? ' href="' . esc_attr($item->url) . '"' : '';
-		$attributes .= ' class="menu-link ' . ($depth > 0 ? 'sub-menu-link' : 'main-menu-link') . '"';
-
-		// Build HTML output and pass through the proper filter.
-		$item_output = sprintf('%1$s<a%2$s>%3$s%4$s%5$s</a>%6$s',
+		// Build the link HTML.
+		$item_output = sprintf(
+				'%1$s<a %2$s>%3$s%4$s%5$s</a>%6$s',
 				$args->before,
-				$attributes,
+				$attributes_string,
 				$args->link_before,
-				apply_filters('the_title', $item->title, $item->ID),
+				apply_filters( 'the_title', $item->title, $item->ID ),
 				$args->link_after,
 				$args->after
 		);
-		$output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+
+		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}
 }
 
+
 /**
  * Pagination
- * Custom pagination with sernova .pagination class
- * source: http://www.ordinarycoder.com/paginate_links-class-ul-li-sernova/
+ * Renders pagination links.
  *
- * @param boolean $echo echo
- * @return string
+ * @param bool $echo Whether to echo the pagination or return it.
+ * @return string|null Pagination HTML if $echo is false, otherwise null.
  */
 function codeska_pagination( $echo = true ) {
 	global $wp_query;
-	$big   = 999999999; // need an unlikely integer
-	$pages = paginate_links(
-		array(
-			'base'         => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-			'format'       => '?paged=%#%',
-			'current'      => max( 1, get_query_var( 'paged' ) ),
-			'total'        => $wp_query->max_num_pages,
-			'type'         => 'array',
-			'prev_next'    => true,
-			'prev_text'    => __( '&laquo; Prev' ),
-			'next_text'    => __( 'Next &raquo;' ),
-		)
+
+	// Generate pagination links.
+	$pagination_links = paginate_links(
+			array(
+					'base'      => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
+					'format'    => '?paged=%#%',
+					'current'   => max( 1, get_query_var( 'paged' ) ),
+					'total'     => $wp_query->max_num_pages,
+					'type'      => 'array',
+					'prev_next' => true,
+					'prev_text' => __( '&laquo; Prev' ),
+					'next_text' => __( 'Next &raquo;' ),
+			)
 	);
-	if ( is_array( $pages ) ) {
-		$paged      = ( get_query_var( 'paged' ) === 0 ) ? 1 : get_query_var( 'paged' );
-		$pagination = '<ul class="pagination">';
-		foreach ( $pages as $page ) {
-			$pagination .= "<li>$page</li>";
-		}
-		$pagination .= '</ul>';
+
+	// If there are pagination links, format them into a list.
+	if ( ! empty( $pagination_links ) ) {
+		$pagination = '<ul class="pagination">' . implode( '', array_map( fn( $page ) => "<li>$page</li>", $pagination_links ) ) . '</ul>';
+
 		if ( $echo ) {
-			// phpcs:ignore
-			echo $pagination;
+			echo $pagination; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $pagination;
 		}
 	}
+
+	return null;
 }
+
 /**
  * 4 - Comments tree
  * sernova Comments Tree
@@ -226,45 +238,51 @@ if ( ! class_exists( 'Codeska_Comments' ) ) :
 		public function start_el( &$output, $comment, $depth = 0, $args = array(), $id = 0 ) {
 			$depth++;
 			$GLOBALS['comment_depth'] = $depth;
-			$GLOBALS['comment']       = $comment;
-			$parent_class             = ( empty( $args['has_children'] ) ? '' : 'parent' );
-			?>
-		<li <?php comment_class( $parent_class ); ?> id="comment-<?php comment_ID(); ?>">
-		<article id="comment-body-<?php comment_ID(); ?>" class="comment-body">
-			<header class="comment-author">
-					<?php echo get_avatar( $comment, $args['avatar_size'] ); ?>
-				<div class="author-meta vcard author">
-						<?php printf( '<cite class="fn">%s</cite>', get_comment_author_link() ); ?>
-					<time datetime="<?php echo comment_date( 'c' ); ?>">
-						<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
-							<?php printf( '%1$s', get_comment_date(), get_comment_time() ); ?>
-						</a>
-					</time>
-				</div><!-- /.comment-author -->
-			</header>
-			<section id="comment-content-<?php comment_ID(); ?>" class="comment">
-					<?php if ( ! $comment->comment_approved ) : ?>
-					<div class="notice">
-						<p class="bottom"><?php _e( 'Your comment is awaiting moderation.', 'wp_dev' ); ?></p>
-					</div>
-				<?php else : comment_text(); ?>
-				<?php endif; ?>
-			</section><!-- /.comment-content -->
-			<div class="comment-meta comment-meta-data hide">
-				<a href="<?php echo htmlspecialchars( get_comment_link( get_comment_ID() ) ); ?>"><?php comment_date(); ?> at <?php comment_time(); ?></a> <?php edit_comment_link( '(Edit)' ); ?>
-			</div><!-- /.comment-meta -->
-			<div class="reply">
-					<?php
-					$reply_args = array(
-						'depth'     => $depth,
-						'max_depth' => $args['max_depth'],
-					);
-					comment_reply_link( array_merge( $args, $reply_args ) );
-					?>
-			</div><!-- /.reply -->
-		</article><!-- /.comment-body -->
-			<?php
+			$GLOBALS['comment'] = $comment;
+			$parent_class = !empty($args['has_children']) ? 'parent' : '';
+
+			$output .= sprintf(
+					'<li %s id="comment-%d">',
+					comment_class($parent_class, null, null, false),
+					$comment->comment_ID
+			);
+
+			$output .= sprintf(
+					'<article id="comment-body-%1$d" class="comment-body">
+            <header class="comment-author">
+                %2$s
+                <div class="author-meta vcard author">
+                    <cite class="fn">%3$s</cite>
+                    <time datetime="%4$s">
+                        <a href="%5$s">%6$s</a>
+                    </time>
+                </div>
+            </header>
+            <section id="comment-content-%1$d" class="comment">
+                %7$s
+            </section>
+            <div class="comment-meta comment-meta-data hide">
+                <a href="%8$s">%9$s at %10$s</a> %11$s
+            </div>
+            <div class="reply">%12$s</div>
+        </article>',
+					$comment->comment_ID,
+					get_avatar($comment, $args['avatar_size']),
+					get_comment_author_link(),
+					esc_attr(get_comment_date('c')),
+					esc_url(get_comment_link($comment->comment_ID)),
+					sprintf('%1$s', get_comment_date(), get_comment_time()),
+					$comment->comment_approved ? comment_text(null, false) : '<div class="notice"><p class="bottom">' . __('Your comment is awaiting moderation.', 'wp_dev') . '</p></div>',
+					htmlspecialchars(get_comment_link($comment->comment_ID)),
+					get_comment_date(),
+					get_comment_time(),
+					get_edit_comment_link('(Edit)'),
+					comment_reply_link(array_merge($args, ['depth' => $depth, 'max_depth' => $args['max_depth']]), $comment, $args['post'], false)
+			);
+
+			$output .= '</li>';
 		}
+
 
 		/**
 		 * end_el
