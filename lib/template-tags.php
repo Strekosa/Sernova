@@ -46,39 +46,73 @@ if ( ! function_exists( 'codeska_entry_footer' ) ) :
 	 */
 	function codeska_entry_footer() {
 		// Hide category and tag text for pages.
-		if ( 'post' === get_post_type() ) {
-			/* translators: used between list items, there is a space after the comma */
-			$categories_list = get_the_category_list( esc_html__( ', ', 'wp_dev' ) );
-			if ( $categories_list && codeska_categorized_blog() ) {
-				/* translators: %s: Posted in %1$s */
-				printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'wp_dev' ) . '</span>', $categories_list ); // WPCS: XSS OK.
-			}
-
-			/* translators: used between list items, there is a space after the comma */
-			$tags_list = get_the_tag_list( '', esc_html__( ', ', 'wp_dev' ) );
-			if ( $tags_list ) {
-				/* translators: %s: Tagged %1$s */
-				printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'wp_dev' ) . '</span>', $tags_list ); // WPCS: XSS OK.
-			}
+		if (get_post_type() === 'post') {
+			render_categories();
+			render_tags();
 		}
 
-		if ( ! is_single() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
+		render_comments();
+		render_edit_link();
+	}
+
+	/**
+	 * Renders the categories section.
+	 */
+	function render_categories() {
+		$categories_list = get_the_category_list(esc_html__(', ', 'wp_dev'));
+		if ($categories_list && codeska_categorized_blog()) {
+			printf(
+				'<span class="cat-links">' . esc_html__('Posted in %1$s', 'wp_dev') . '</span>',
+				$categories_list // WPCS: XSS OK.
+			);
+		}
+	}
+
+	/**
+	 * Renders the tags section.
+	 */
+	function render_tags() {
+		$tags_list = get_the_tag_list('', esc_html__(', ', 'wp_dev'));
+		if ($tags_list) {
+			printf(
+				'<span class="tags-links">' . esc_html__('Tagged %1$s', 'wp_dev') . '</span>',
+				$tags_list // WPCS: XSS OK.
+			);
+		}
+	}
+
+	/**
+	 * Renders the comments link.
+	 */
+	function render_comments() {
+		if (!is_single() && !post_password_required() && (comments_open() || get_comments_number())) {
 			echo '<span class="comments-link">';
-			/* translators: %s: post title */
-			comments_popup_link( sprintf( wp_kses( __( 'Leave a Comment<span class="screen-reader-text"> on %s</span>', 'wp_dev' ), array( 'span' => array( 'class' => array() ) ) ), get_the_title() ) );
+			comments_popup_link(sprintf(
+				wp_kses(
+					__('Leave a Comment<span class="screen-reader-text"> on %s</span>', 'wp_dev'),
+					['span' => ['class' => []]]
+				),
+				get_the_title()
+			));
 			echo '</span>';
 		}
+	}
 
+	/**
+	 * Renders the edit post link.
+	 */
+	function render_edit_link() {
 		edit_post_link(
 			sprintf(
-				/* translators: %s: Name of current post */
-				esc_html__( 'Edit %s', 'wp_dev' ),
-				the_title( '<span class="screen-reader-text">"', '"</span>', false )
+			/* translators: %s: Name of current post */
+				esc_html__('Edit %s', 'wp_dev'),
+				the_title('<span class="screen-reader-text">"', '"</span>', false)
 			),
 			'<span class="edit-link">',
 			'</span>'
 		);
 	}
+
 endif;
 
 /**
