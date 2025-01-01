@@ -31,6 +31,7 @@ $theme_includes = [
 	'/lib/breadcrumbs.php',                    // Breadcrumbs
 	'/lib/menu-category-links.php',            // Menu category links
 	'/lib/render-contact-item.php',            // Render contact item
+	'/lib/render-repeater-list.php',           // Render repeater list
 	'/lib/ajax-filter-careers.php',            // Ajax Filter Careers
 	'/lib/ajax-filter-posts.php',              // Ajax Filter Careers
 ];
@@ -204,35 +205,4 @@ function custom_search_redirect() {
 add_action('template_redirect', 'custom_search_redirect');
 
 ///////////////////////////////////////////////////////////////
-/// Repeater function for features and principles
-function render_repeater_list($field_name, $slug) {
-	if (have_rows($field_name)):
-		$counter = 1;
-		echo '<div class="' . esc_attr($slug . '__list') . '">';
-		while (have_rows($field_name)): the_row();
-			$icon = get_sub_field('icon');
-			$title = get_sub_field('title');
-			?>
-			<div class="<?php echo esc_attr($slug); ?>__item flex align-center">
-				<?php if ($icon): ?>
-					<div class="<?php echo esc_attr($slug); ?>__item-icon flex column justify-center align-center">
-						<img src="<?php echo esc_url($icon['url']); ?>" alt="<?php echo esc_attr($icon['alt']); ?>"/>
-					</div>
-				<?php else: ?>
-					<div class="<?php echo esc_attr($slug); ?>__item-counter flex column justify-center align-center">
-						<?php echo $counter; ?>
-					</div>
-				<?php endif; ?>
-				<?php if ($title): ?>
-					<p class="<?php echo esc_attr($slug); ?>__item-title">
-						<?php echo esc_html($title); ?>
-					</p>
-				<?php endif; ?>
-			</div>
-			<?php
-			$counter++;
-		endwhile;
-		echo '</div>';
-	endif;
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
