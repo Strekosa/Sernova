@@ -37,10 +37,15 @@ if ( ! class_exists( 'ACF_Field_Groups_Type' ) ) :
 		 * Constructor.
 		 */
 		public function __construct() {
+			// Register taxonomy and its default terms.
 			add_action( 'init', [ $this, 'field_group_taxonomy' ] );
+			// Modify admin columns for better usability.
 			add_filter( 'manage_edit-acf-field-group_columns', [ $this, 'field_group_columns' ], 20 );
+			// Render content for custom taxonomy columns.
 			add_action( 'manage_acf-field-group_posts_custom_column', [ $this, 'field_group_columns_html' ], 20, 2 );
+			// Add a taxonomy filter dropdown in admin.
 			add_action( 'restrict_manage_posts', [ $this, 'field_group_filter' ], 10, 2 );
+			// Enqueue necessary admin scripts and styles.
 			add_action( 'acf/input/admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 		}
 
@@ -63,6 +68,7 @@ if ( ! class_exists( 'ACF_Field_Groups_Type' ) ) :
 				]
 			);
 
+			// Add default taxonomy terms for organization.
 			foreach ( $this->default_terms as $default_term ) {
 				wp_insert_term( $default_term, $this->taxonomy );
 			}
@@ -97,7 +103,6 @@ if ( ! class_exists( 'ACF_Field_Groups_Type' ) ) :
 		public function field_group_columns_html( $column, $post_id ) {
 			if ( $column === $this->taxonomy ) {
 				$terms = get_the_terms( $post_id, $this->taxonomy );
-
 				if ( $terms ) {
 					echo implode( ', ', wp_list_pluck( $terms, 'name' ) );
 				}
@@ -119,6 +124,17 @@ if ( ! class_exists( 'ACF_Field_Groups_Type' ) ) :
 			$taxonomy_name = $taxonomy_obj->labels->name;
 			$terms         = get_terms( $this->taxonomy );
 
+			// Render taxonomy filter dropdown.
+			$this->render_filter_dropdown( $taxonomy_name, $terms );
+		}
+
+		/**
+		 * Renders the filter dropdown HTML for taxonomy.
+		 *
+		 * @param string $taxonomy_name Name of the taxonomy.
+		 * @param array  $terms Array of taxonomy terms.
+		 */
+		private function render_filter_dropdown( $taxonomy_name, $terms ) {
 			echo '<select name="' . esc_attr( $this->taxonomy ) . '" id="' . esc_attr( $this->taxonomy ) . '" class="postform">';
 			echo '<option value="">' . esc_html( $taxonomy_name ) . '</option>';
 

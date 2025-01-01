@@ -35,32 +35,46 @@ if ( ! class_exists( 'ACF_Blocks_Loader' ) && function_exists( 'acf_register_blo
 
 		/**
 		 * Registers ACF blocks based on templates found in the specified directory.
-		 *
-		 * @return void
 		 */
 		public function register_blocks() {
-			if ( ! file_exists( locate_template( $this->dir ) ) ) {
+			$dir_path = locate_template( $this->dir );
+
+			if ( ! $dir_path || ! is_dir( $dir_path ) ) {
+				error_log( "ACF Blocks directory not found: {$this->dir}" );
 				return;
 			}
 
-			$dir = new DirectoryIterator( locate_template( $this->dir ) );
-
-			foreach ( $dir as $file_info ) {
-				if ( ! $file_info->isDot() && '.DS_Store' !== $file_info->getFilename() ) {
+			foreach ( new DirectoryIterator( $dir_path ) as $file_info ) {
+				if ( $this->is_valid_block( $file_info ) ) {
 					$this->register_block( $file_info );
 				}
 			}
 		}
 
 		/**
+		 * Validates if a file is a valid block template.
+		 *
+		 * @param DirectoryIterator $file_info File information.
+		 * @return bool
+		 */
+		private function is_valid_block( $file_info ) {
+			return $file_info->isDir() && ! $file_info->isDot();
+		}
+
+		/**
 		 * Registers a single block.
 		 *
 		 * @param DirectoryIterator $file_info File information.
-		 * @return void
 		 */
 		private function register_block( $file_info ) {
-			$slug        = str_replace( $this->ext, '', $file_info->getFilename() );
-			$file_path   = locate_template( $this->get_block_template_path( $slug ) );
+			$slug = $file_info->getFilename();
+			$file_path = locate_template( $this->get_block_template_path( $slug ) );
+
+			if ( ! $file_path || ! file_exists( $file_path ) ) {
+				error_log( "Block template not found: {$this->get_block_template_path( $slug )}" );
+				return;
+			}
+
 			$file_headers = $this->get_block_headers( $file_path );
 
 			acf_register_block( [
@@ -121,7 +135,6 @@ if ( ! class_exists( 'ACF_Blocks_Loader' ) && function_exists( 'acf_register_blo
 		 * @param string $content Inner block content.
 		 * @param bool   $is_preview Whether it is a preview.
 		 * @param int    $post_id Post ID.
-		 * @return void
 		 */
 		public function block_render_callback( $block, $content, $is_preview, $post_id ) {
 			$slug          = str_replace( 'acf/', '', $block['name'] );
@@ -129,6 +142,8 @@ if ( ! class_exists( 'ACF_Blocks_Loader' ) && function_exists( 'acf_register_blo
 
 			if ( file_exists( get_theme_file_path( $template_path ) ) ) {
 				include get_theme_file_path( $template_path );
+			} else {
+				error_log( "Block render file not found: {$template_path}" );
 			}
 		}
 
