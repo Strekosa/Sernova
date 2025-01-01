@@ -43,13 +43,20 @@ function custom_breadcrumbs() {
  * @return string|null The type of breadcrumb to render.
  */
 function detect_breadcrumb_type() {
-	if (is_single() && get_post_type() === 'post') return 'post';
-	if (is_singular('solutions')) return 'solutions';
-	if (is_post_type_archive('careers')) return 'careers_archive';
-	if (is_singular('careers')) return 'careers_single';
-	if (is_page(['about', 'strategic-alliances', 'our-team'])) return 'special_page';
-	if (is_home()) return 'home';
-	if (is_page()) return 'page';
+	$types = [
+		'post'              => is_single() && get_post_type() === 'post',
+		'solutions'         => is_singular('solutions'),
+		'careers_archive'   => is_post_type_archive('careers'),
+		'careers_single'    => is_singular('careers'),
+		'special_page'      => is_page(['about', 'strategic-alliances', 'our-team']),
+		'home'              => is_home(),
+		'page'              => is_page(),
+	];
+
+	foreach ($types as $type => $condition) {
+		if ($condition) return $type;
+	}
+
 	return null;
 }
 
