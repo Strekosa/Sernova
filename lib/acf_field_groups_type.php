@@ -9,7 +9,6 @@ if ( ! class_exists( 'ACF_Field_Groups_Type' ) ) :
 
 	/**
 	 * ACF_Field_Groups_Type is a class for adding Field Group Type taxonomy for ACF Field Group post type.
-	 * It is useful for visual organization of Field Groups in WP dashboard without huge names, prefixes etc.
 	 */
 	class ACF_Field_Groups_Type {
 
@@ -160,17 +159,40 @@ if ( ! class_exists( 'ACF_Field_Groups_Type' ) ) :
 		 * @return array
 		 */
 		private function get_directory_files( $dir_path ) {
-			$dir  = new DirectoryIterator( locate_template( $dir_path ) );
 			$files = [];
+			$dir   = locate_template( $dir_path );
 
-			foreach ( $dir as $file_info ) {
-				if ( ! $file_info->isDot() && ! $file_info->isDir() ) {
-					$module_name           = pathinfo( $file_info->getFilename(), PATHINFO_FILENAME );
-					$files[ $module_name ] = get_stylesheet_directory_uri() . '/' . $dir_path . $file_info->getFilename();
+			if ( $dir && is_dir( $dir ) ) {
+				foreach ( new DirectoryIterator( $dir ) as $file_info ) {
+					if ( $this->is_valid_file( $file_info ) ) {
+						$module_name = pathinfo( $file_info->getFilename(), PATHINFO_FILENAME );
+						$files[ $module_name ] = $this->get_file_url( $dir_path, $file_info->getFilename() );
+					}
 				}
 			}
 
 			return $files;
+		}
+
+		/**
+		 * Checks if a file is valid (not a directory and not a hidden file).
+		 *
+		 * @param DirectoryIterator $file_info File information.
+		 * @return bool
+		 */
+		private function is_valid_file( $file_info ) {
+			return ! $file_info->isDot() && ! $file_info->isDir();
+		}
+
+		/**
+		 * Constructs the full URL for a file.
+		 *
+		 * @param string $dir_path Directory path.
+		 * @param string $filename File name.
+		 * @return string
+		 */
+		private function get_file_url( $dir_path, $filename ) {
+			return get_stylesheet_directory_uri() . '/' . $dir_path . $filename;
 		}
 	}
 
