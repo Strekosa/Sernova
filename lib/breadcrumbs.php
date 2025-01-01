@@ -28,6 +28,9 @@ function custom_breadcrumbs() {
 		case 'special_page':
 			render_special_page_breadcrumbs($svg_separator);
 			break;
+		case 'search':
+			render_search_breadcrumbs($svg_separator);
+			break;
 		case 'home':
 		case 'page':
 			render_generic_breadcrumbs($svg_separator, get_the_title());
@@ -49,6 +52,7 @@ function detect_breadcrumb_type() {
 		'careers_archive'   => is_post_type_archive('careers'),
 		'careers_single'    => is_singular('careers'),
 		'special_page'      => is_page(['about', 'strategic-alliances', 'our-team']),
+		'search'            => is_search(),
 		'home'              => is_home(),
 		'page'              => is_page(),
 	];
@@ -106,6 +110,13 @@ function render_careers_single_breadcrumbs($svg_separator) {
 function render_special_page_breadcrumbs($svg_separator) {
 	echo $svg_separator . '<span class="opacity">Sernova</span>';
 	echo $svg_separator . '<span>' . esc_html(get_the_title()) . '</span>';
+}
+
+/**
+ * Renders breadcrumbs for search results.
+ */
+function render_search_breadcrumbs($svg_separator) {
+	echo $svg_separator . '<span>Search Results</span>';
 }
 
 /**

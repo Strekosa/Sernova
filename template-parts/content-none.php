@@ -9,11 +9,13 @@
 ?>
 
 <section class="no-results not-found">
-	<header class="page-header">
-		<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'wp_dev' ); ?></h1>
-	</header><!-- .page-header -->
+	<div class="no-results__heading">
+		<h3 class="no-results__title">
+			<?php esc_html_e( 'Nothing Found', 'wp_dev' ); ?>
+		</h3>
+	</div><!-- .page-header -->
 
-	<div class="page-content">
+	<div class="no-results__content flex column">
 		<?php
 		if ( is_home() && current_user_can( 'publish_posts' ) ) :
 			?>
@@ -24,7 +26,6 @@
 
 			<p><?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'wp_dev' ); ?></p>
 			<?php
-				get_search_form();
 
 		else :
 			?>

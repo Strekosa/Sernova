@@ -56,44 +56,6 @@ get_header(); ?>
 			<div class="single__main">
 				<div class="single__main-wrapp container-boxed justify-between">
 					<div class="single__share">
-						<!--						--><?php
-						//						$share_links = get_field('share_links', 'option'); // Получаем данные из опций ACF
-						//
-						//						if ($share_links && is_array($share_links)): ?>
-						<!--							<div class="social-share">-->
-						<!--								<span>Share this post:</span>-->
-						<!--								<div class="social-share__links flex">-->
-						<!--									--><?php //foreach ($share_links as $link):
-						//										$icon = $link['share_icon']; // Изображение
-						//										$raw_link = isset($link['share_link']['url']) ? $link['share_link']['url'] : ''; // URL ссылки
-						//
-						//										if (!empty($raw_link)) {
-						//											$post_url = urlencode(get_permalink()); // URL текущего поста
-						//											$post_title = urlencode(get_the_title()); // Заголовок текущего поста
-						//
-						//											// Заменяем переменные {post_url} и {post_title} в ссылке
-						//											$share_url = str_replace(
-						//													array('{post_url}', '{post_title}'),
-						//													array($post_url, $post_title),
-						//													$raw_link
-						//											);
-						//										} else {
-						//											$share_url = '#'; // Заглушка
-						//										}
-						//										?>
-						<!--										<a href="-->
-						<?php //echo esc_url($share_url); ?><!--" target="_blank" rel="noopener noreferrer">-->
-						<!--											--><?php //if ($icon): ?>
-						<!--												<img src="-->
-						<?php //echo esc_url($icon['url']); ?><!--" alt="-->
-						<?php //echo esc_attr($icon['alt']); ?><!--" />-->
-						<!--											--><?php //endif; ?>
-						<!--										</a>-->
-						<!--									--><?php //endforeach; ?>
-						<!--								</div>-->
-						<!--							</div>-->
-						<!--						--><?php //endif; ?>
-
 
 						<?php
 						$current_url = urlencode(get_permalink());
@@ -258,7 +220,7 @@ get_header(); ?>
 						$link_title = $link['title'];
 						$link_target = $link['target'] ? $link['target'] : '_self';
 						?>
-						<div class="button button-secondary">
+						<div class="<?php echo $slug; ?>__button button button-secondary">
 							<a href="<?php echo esc_url($link_url); ?>"
 							   target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?>
 							</a>

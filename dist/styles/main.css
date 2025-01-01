@@ -8656,7 +8656,7 @@ body.modal-open {
   height: 100%;
 }
 
-/* line 2, assets/styles/components/_search.scss */
+/* line 1, assets/styles/components/_search-form.scss */
 
 .search-form {
   position: relative;
@@ -8669,7 +8669,7 @@ body.modal-open {
   display: flex;
 }
 
-/* line 8, assets/styles/components/_search.scss */
+/* line 7, assets/styles/components/_search-form.scss */
 
 .search-form svg {
   position: absolute;
@@ -8683,7 +8683,7 @@ body.modal-open {
   cursor: pointer;
 }
 
-/* line 20, assets/styles/components/_search.scss */
+/* line 19, assets/styles/components/_search-form.scss */
 
 .search-field {
   position: relative;
@@ -8699,7 +8699,7 @@ body.modal-open {
 }
 
 @media screen and (max-width: 1024px) {
-  /* line 20, assets/styles/components/_search.scss */
+  /* line 19, assets/styles/components/_search-form.scss */
 
   .search-field {
     max-width: 100%;
@@ -8707,13 +8707,13 @@ body.modal-open {
   }
 }
 
-/* line 33, assets/styles/components/_search.scss */
+/* line 32, assets/styles/components/_search-form.scss */
 
 .search-field input:-internal-autofill-selected {
   background: transparent !important;
 }
 
-/* line 37, assets/styles/components/_search.scss */
+/* line 36, assets/styles/components/_search-form.scss */
 
 .search-field input::-webkit-input-placeholder {
   font-size: 14px;
@@ -8735,7 +8735,7 @@ body.modal-open {
   line-height: 18px;
 }
 
-/* line 44, assets/styles/components/_search.scss */
+/* line 43, assets/styles/components/_search-form.scss */
 
 #header-search-form {
   max-width: 263px;
@@ -8745,7 +8745,7 @@ body.modal-open {
 }
 
 @media screen and (max-width: 1024px) {
-  /* line 44, assets/styles/components/_search.scss */
+  /* line 43, assets/styles/components/_search-form.scss */
 
   #header-search-form {
     max-width: 100%;
@@ -8753,7 +8753,7 @@ body.modal-open {
     height: 35px;
   }
 
-  /* line 55, assets/styles/components/_search.scss */
+  /* line 54, assets/styles/components/_search-form.scss */
 
   #header-search-form svg {
     left: 15px;
@@ -8766,7 +8766,7 @@ body.modal-open {
 }
 
 @media screen and (max-width: 576px) {
-  /* line 65, assets/styles/components/_search.scss */
+  /* line 64, assets/styles/components/_search-form.scss */
 
   #header-search-form .search-field {
     border-color: #fff;
@@ -8774,7 +8774,7 @@ body.modal-open {
   }
 }
 
-/* line 71, assets/styles/components/_search.scss */
+/* line 70, assets/styles/components/_search-form.scss */
 
 #header-search-form .search-field {
   padding: 20px 20px 20px 58px;
@@ -8785,21 +8785,21 @@ body.modal-open {
 }
 
 @media screen and (max-width: 1024px) {
-  /* line 71, assets/styles/components/_search.scss */
+  /* line 70, assets/styles/components/_search-form.scss */
 
   #header-search-form .search-field {
     padding: 10px 10px 10px 40px;
   }
 }
 
-/* line 84, assets/styles/components/_search.scss */
+/* line 83, assets/styles/components/_search-form.scss */
 
 #resources-search-form .search-field {
   padding: 12px 20px 12px 58px;
   color: #fff;
 }
 
-/* line 88, assets/styles/components/_search.scss */
+/* line 87, assets/styles/components/_search-form.scss */
 
 #resources-search-form .search-field::-webkit-input-placeholder {
   color: rgba(255, 255, 255, 0.7);
@@ -8823,6 +8823,132 @@ body.modal-open {
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
   line-height: 18px;
+}
+
+/* line 1, assets/styles/components/_search.scss */
+
+.search-results,
+.search-no-results {
+  background: #0B4697;
+}
+
+/* line 6, assets/styles/components/_search.scss */
+
+.search-results .search__page,
+.search-no-results .search__page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+/* line 12, assets/styles/components/_search.scss */
+
+.search-results .search__heading,
+.search-no-results .search__heading {
+  padding-top: 108px;
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+/* line 18, assets/styles/components/_search.scss */
+
+.search-results .search__breadcrumbs,
+.search-no-results .search__breadcrumbs {
+  margin-bottom: 40px;
+}
+
+@media screen and (max-width: 768px) {
+  /* line 18, assets/styles/components/_search.scss */
+
+  .search-results .search__breadcrumbs,
+  .search-no-results .search__breadcrumbs {
+    margin-bottom: 40px;
+  }
+}
+
+/* line 26, assets/styles/components/_search.scss */
+
+.search-results .search__form,
+.search-no-results .search__form {
+  margin-top: 30px;
+}
+
+/* line 30, assets/styles/components/_search.scss */
+
+.search-results .search__main,
+.search-no-results .search__main {
+  padding-top: 40px;
+  padding-bottom: 80px;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  margin-bottom: -40px;
+  background: #e3e3e3;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+/* line 40, assets/styles/components/_search.scss */
+
+.search-results .search__list,
+.search-no-results .search__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 80px 20px;
+}
+
+@media screen and (max-width: 1024px) {
+  /* line 40, assets/styles/components/_search.scss */
+
+  .search-results .search__list,
+  .search-no-results .search__list {
+    grid-template-columns: 1fr 1fr;
+    gap: 60px 15px;
+  }
+}
+
+@media screen and (max-width: 651px) {
+  /* line 40, assets/styles/components/_search.scss */
+
+  .search-results .search__list,
+  .search-no-results .search__list {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* line 56, assets/styles/components/_search.scss */
+
+.search-results .search__no-found,
+.search-no-results .search__no-found {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+/* line 63, assets/styles/components/_search.scss */
+
+.search-results .no-results__title,
+.search-no-results .no-results__title {
+  margin-bottom: 25px;
+}
+
+/* line 67, assets/styles/components/_search.scss */
+
+.search-results .no-results__content,
+.search-no-results .no-results__content {
+  gap: 25px;
 }
 
 /** Import everything from page-templates */
