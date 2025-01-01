@@ -47,29 +47,58 @@ if ( ! class_exists( 'ACF_Blocks_Loader' ) && function_exists( 'acf_register_blo
 
 			foreach ( $dir as $file_info ) {
 				if ( $this->is_valid_block_file( $file_info ) ) {
-					$this->register_block( $file_info );
+					$this->process_block_file( $file_info );
 				}
 			}
 		}
 
 		/**
-		 * Validates if a file is a block template.
+		 * Processes a single block file: validates and registers the block.
 		 *
 		 * @param DirectoryIterator $file_info File information.
+		 * @return void
+		 */
+		private function process_block_file( $file_info ) {
+			$slug = str_replace( $this->ext, '', $file_info->getFilename() );
+
+			if ( ! $this->is_block_valid( $slug ) ) {
+				return;
+			}
+
+			$this->register_block( $slug );
+		}
+
+		/**
+		 * Validates if a block slug corresponds to a valid template.
+		 *
+		 * @param string $slug Block slug.
 		 * @return bool
 		 */
-		private function is_valid_block_file( $file_info ) {
-			return ! $file_info->isDot() && '.DS_Store' !== $file_info->getFilename();
+		private function is_block_valid( $slug ) {
+			$file_path = locate_template( $this->get_block_template_path( $slug ) );
+
+			return file_exists( $file_path ) && $this->has_valid_headers( $file_path );
+		}
+
+		/**
+		 * Checks if a block file has valid headers.
+		 *
+		 * @param string $file_path Path to the block template file.
+		 * @return bool
+		 */
+		private function has_valid_headers( $file_path ) {
+			$headers = $this->get_block_headers( $file_path );
+
+			return ! empty( $headers['title'] ) && ! empty( $headers['category'] );
 		}
 
 		/**
 		 * Registers a single block.
 		 *
-		 * @param DirectoryIterator $file_info File information.
+		 * @param string $slug Block slug.
 		 * @return void
 		 */
-		private function register_block( $file_info ) {
-			$slug        = str_replace( $this->ext, '', $file_info->getFilename() );
+		private function register_block( $slug ) {
 			$file_path   = locate_template( $this->get_block_template_path( $slug ) );
 			$file_headers = $this->get_block_headers( $file_path );
 
