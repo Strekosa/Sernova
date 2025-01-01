@@ -158,51 +158,51 @@ add_filter('rest_authentication_errors', function ($result) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function custom_search_redirect() {
-	if (is_search() && !empty(get_search_query())) {
-		global $wpdb;
-		$search_query = sanitize_text_field(get_search_query());
-
-		// SQL запрос: сначала ищем точное совпадение по заголовку, затем ищем в содержимом
-		$results = $wpdb->get_results(
-			$wpdb->prepare(
-				"
-                SELECT ID, post_title, post_type
-                FROM {$wpdb->posts}
-                WHERE post_status = 'publish'
-                AND (
-                    post_title LIKE %s OR post_content LIKE %s
-                )
-                ORDER BY
-                    CASE
-                        WHEN post_title LIKE %s THEN 1
-                        ELSE 2
-                    END ASC
-                LIMIT 1
-                ",
-				'%' . $wpdb->esc_like($search_query) . '%',
-				'%' . $wpdb->esc_like($search_query) . '%',
-				$wpdb->esc_like($search_query)
-			)
-		);
-
-		// Если найдены результаты
-		if (!empty($results)) {
-			$redirect_url = add_query_arg('highlight', urlencode($search_query), get_permalink($results[0]->ID));
-			wp_redirect($redirect_url);
-			exit;
-		} else {
-			// Если результатов нет, возвращаем 404
-			global $wp_query;
-			$wp_query->set_404();
-			status_header(404);
-			nocache_headers();
-			include(get_query_template('404'));
-			exit;
-		}
-	}
-}
-add_action('template_redirect', 'custom_search_redirect');
+//function custom_search_redirect() {
+//	if (is_search() && !empty(get_search_query())) {
+//		global $wpdb;
+//		$search_query = sanitize_text_field(get_search_query());
+//
+//		// SQL запрос: сначала ищем точное совпадение по заголовку, затем ищем в содержимом
+//		$results = $wpdb->get_results(
+//			$wpdb->prepare(
+//				"
+//                SELECT ID, post_title, post_type
+//                FROM {$wpdb->posts}
+//                WHERE post_status = 'publish'
+//                AND (
+//                    post_title LIKE %s OR post_content LIKE %s
+//                )
+//                ORDER BY
+//                    CASE
+//                        WHEN post_title LIKE %s THEN 1
+//                        ELSE 2
+//                    END ASC
+//                LIMIT 1
+//                ",
+//				'%' . $wpdb->esc_like($search_query) . '%',
+//				'%' . $wpdb->esc_like($search_query) . '%',
+//				$wpdb->esc_like($search_query)
+//			)
+//		);
+//
+//		// Если найдены результаты
+//		if (!empty($results)) {
+//			$redirect_url = add_query_arg('highlight', urlencode($search_query), get_permalink($results[0]->ID));
+//			wp_redirect($redirect_url);
+//			exit;
+//		} else {
+//			// Если результатов нет, возвращаем 404
+//			global $wp_query;
+//			$wp_query->set_404();
+//			status_header(404);
+//			nocache_headers();
+//			include(get_query_template('404'));
+//			exit;
+//		}
+//	}
+//}
+//add_action('template_redirect', 'custom_search_redirect');
 
 ///////////////////////////////////////////////////////////////
 
