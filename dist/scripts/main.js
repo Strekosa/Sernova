@@ -3304,99 +3304,80 @@ document.addEventListener('DOMContentLoaded', function () {
   "use strict";
 
   var body = document.body;
-  var iconMenu = document.querySelector('.navbar-toggler');
-  var menuBody = document.querySelector('.navbar-collapse');
 
-  // Function for checking mobile devices
-  var isMobile = {
-    Android: function Android() {
-      return navigator.userAgent.match(/Android/i);
-    },
-    Opera: function Opera() {
-      return navigator.userAgent.match(/Opera Mini/i);
-    },
-    Windows: function Windows() {
-      return navigator.userAgent.match(/IEMobile/i);
-    },
-    BlackBerry: function BlackBerry() {
-      return navigator.userAgent.match(/BlackBerry/i);
-    },
-    iOS: function iOS() {
-      return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-    },
-    any: function any() {
-      return this.Android() || this.Opera() || this.BlackBerry() || this.iOS() || this.Windows();
-    }
+  // Function to check for large touchscreen or hybrid devices
+  var isLargeTouchScreen = function isLargeTouchScreen() {
+    return ('ontouchstart' in window || navigator.maxTouchPoints > 1) && window.innerWidth > 1024;
   };
 
   // Function to reset active submenus
   function resetActiveSubMenus() {
-    var activeSubMenus = document.querySelectorAll('.sub-menu.active');
-    var activeMenuArrows = document.querySelectorAll('.nav-desc.active');
-    var activeMenuItems = document.querySelectorAll('.menu-item.active');
+    var activeSubMenus = document.querySelectorAll('.sub-menu.active-hover');
     activeSubMenus.forEach(function (subMenu) {
       subMenu.style.maxHeight = '0';
-      subMenu.classList.remove('active');
-    });
-    activeMenuArrows.forEach(function (arrow) {
-      arrow.classList.remove('active');
-    });
-    activeMenuItems.forEach(function (item) {
-      item.classList.remove('active');
+      subMenu.classList.remove('active-hover');
     });
   }
 
-  // Logic for mobile devices
-  if (isMobile.any()) {
+  // Logic for large touchscreens and hybrid devices
+  if (isLargeTouchScreen()) {
+    body.classList.add('_hybrid');
+    var menuItems = document.querySelectorAll('.menu-item-has-children');
+    menuItems.forEach(function (menuItem) {
+      var subMenu = menuItem.querySelector('.sub-menu');
+
+      // Hover logic
+      menuItem.addEventListener('mouseenter', function () {
+        subMenu.classList.add('active-hover');
+        subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+      });
+      menuItem.addEventListener('mouseleave', function () {
+        subMenu.classList.remove('active-hover');
+      });
+
+      // Click logic
+      menuItem.addEventListener('click', function (e) {
+        e.stopPropagation(); // Prevent conflicts with hover
+        if (subMenu.classList.contains('active-hover')) {
+          subMenu.classList.remove('active-hover');
+        } else {
+          resetActiveSubMenus();
+          subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+          subMenu.classList.add('active-hover');
+        }
+      });
+    });
+  } else if (window.innerWidth <= 1024) {
+    // Logic for mobile devices
     body.classList.add('_touch');
     var menuArrows = document.querySelectorAll('.nav-desc');
     menuArrows.forEach(function (arrow) {
       var subMenu = arrow.nextElementSibling;
-      var parentMenuItem = arrow.parentElement;
       arrow.addEventListener('click', function () {
-        var windowHeight = window.innerHeight;
-        var maxMenuHeight = windowHeight - arrow.getBoundingClientRect().bottom;
         if (subMenu.style.maxHeight === '0px' || !subMenu.style.maxHeight) {
-          var subMenuHeight = subMenu.scrollHeight;
-          if (subMenuHeight > maxMenuHeight) {
-            subMenu.style.maxHeight = maxMenuHeight + 'px';
-            subMenu.style.overflowY = 'auto';
-          } else {
-            subMenu.style.maxHeight = subMenuHeight + 'px';
-            subMenu.style.overflowY = 'hidden';
-          }
-          subMenu.classList.add('active');
-          arrow.classList.add('active');
-          parentMenuItem.classList.add('active');
+          subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+          subMenu.classList.add('active-hover');
         } else {
           subMenu.style.maxHeight = '0';
-          subMenu.classList.remove('active');
-          arrow.classList.remove('active');
-          parentMenuItem.classList.remove('active');
+          subMenu.classList.remove('active-hover');
         }
       });
     });
   } else {
+    // Logic for desktops
     body.classList.add('_pc');
-    var menuItems = document.querySelectorAll('.menu-item-has-children');
-    menuItems.forEach(function (menuItem) {
+    var _menuItems = document.querySelectorAll('.menu-item-has-children');
+    _menuItems.forEach(function (menuItem) {
       var arrow = menuItem.querySelector('.nav-desc');
       var subMenu = menuItem.querySelector('.sub-menu');
       arrow.addEventListener('click', function (e) {
         e.preventDefault();
-        menuItems.forEach(function (item) {
-          var otherArrow = item.querySelector('.nav-desc');
-          var otherSubMenu = item.querySelector('.sub-menu');
-          if (item !== menuItem) {
-            otherArrow.classList.remove('active-hover');
-            otherSubMenu.classList.remove('active-hover');
-          }
-        });
-        if (arrow.classList.contains('active-hover')) {
-          arrow.classList.remove('active-hover');
+        if (subMenu.classList.contains('active-hover')) {
+          subMenu.style.maxHeight = '0';
           subMenu.classList.remove('active-hover');
         } else {
-          arrow.classList.add('active-hover');
+          resetActiveSubMenus();
+          subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
           subMenu.classList.add('active-hover');
         }
       });
@@ -3404,6 +3385,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Logic for a burger menu
+  var iconMenu = document.querySelector('.navbar-toggler');
+  var menuBody = document.querySelector('.navbar-collapse');
   if (iconMenu) {
     iconMenu.addEventListener('click', function () {
       body.classList.toggle('lock');

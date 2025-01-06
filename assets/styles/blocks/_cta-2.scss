@@ -13,7 +13,7 @@
   }
 
   &__heading {
-    max-width: 796px;
+    max-width: 675px;
     margin-right: 20px;
 
     @media screen and (max-width: 768px) {
@@ -24,5 +24,6 @@
 
   &__title {
     margin-bottom: 12px;
+    letter-spacing: -2px;
   }
 }

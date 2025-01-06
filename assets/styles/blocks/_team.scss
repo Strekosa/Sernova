@@ -4,7 +4,7 @@
   padding-bottom: 120px;
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
-  margin-bottom: -40px;
+  margin-bottom: -43px;
 
   @media screen and (max-width: 900px) {
     padding-top: 60px;
@@ -45,6 +45,10 @@
 
   &__title {
     color: $otc-blue;
+
+    @media screen and (max-width: 768px) {
+      line-height: 20.8px;
+    }
   }
 
   &__list {
@@ -52,7 +56,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 60px 40px;
+    gap: 40px 40px;
     flex: 1 1 75%;
 
     @media screen and (max-width: 1200px) {
@@ -107,7 +111,7 @@
       @media screen and (max-width: 451px) {
         max-height: 423px;
 
-        @include adaptiv-height(1300, 320);
+        @include adaptiv-height(1300, 319.5);
       }
 
       img {
@@ -123,6 +127,11 @@
       @media screen and (max-width: 900px) {
         font-size: 18px;
         line-height: 23px;
+      }
+
+      @media screen and (max-width: 768px) {
+        font-size: 16px;
+        line-height: 20.8px;
       }
     }
 

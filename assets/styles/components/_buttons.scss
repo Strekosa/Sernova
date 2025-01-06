@@ -24,6 +24,10 @@ button {
       border-radius: 8px;
       border: 1px solid $yellow;
       transition: 0.3s ease-in-out all;
+
+      @media screen and (max-width: 768px) {
+        padding: 3px 34px;
+      }
     }
   }
 
@@ -34,12 +38,16 @@ button {
 
     a {
       background: $otc-blue;
-      padding: 7px 49px;
+      padding: 7px 32px 7px 49px;
       height: 56px;
       color: $white;
       border-top-left-radius: 8px;
       border-bottom-left-radius: 8px;
       transition: 0.3s ease-in-out all;
+
+      @media screen and (max-width: 768px) {
+        padding: 7px 25px 7px 37px;
+      }
     }
 
     svg {

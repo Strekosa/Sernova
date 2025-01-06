@@ -3,6 +3,15 @@
   background: #f8fafc;
   padding-top: 4px;
   padding-bottom: 4px;
+  margin-top: auto;
+
+  //@media screen and (max-width: 768px) {
+  //  position: fixed;
+  //  bottom: env(safe-area-inset-bottom);
+  //  left: 0;
+  //  width: 100%;
+  //  z-index: 10;
+  //}
 
   &__main {
     overflow: hidden;
@@ -21,6 +30,7 @@
   .slick-slide {
     margin-right: 45px;
     margin-left: 45px;
+    transition: none !important;
 
     > div {
       display: flex;

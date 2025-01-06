@@ -3,11 +3,11 @@
   padding-top: 108px;
 
   &__breadcrumbs {
-    margin: 0 auto 80px;
+    margin: 0 auto 77px;
   }
 
   &__heading {
-    margin-bottom: 40px;
+    margin-bottom: 35px;
     color: $white;
   }
 
@@ -29,7 +29,7 @@
 
   &__main {
     background: $white;
-    padding-top: 40px;
+    padding-top: 80px;
     padding-bottom: 120px;
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
@@ -37,6 +37,7 @@
 
     @media screen and (max-width: 768px) {
       padding-bottom: 80px;
+      padding-top: 40px;
     }
 
     &-wrapp {
@@ -72,7 +73,13 @@
   }
 
   &__content {
-    max-width: 762px;
+    max-width: 650px;
+    width: 100%;
+    margin-right: 112px;
+
+    @media screen and (max-width: 1200px) {
+      margin-right: 0;
+    }
 
     .text {
       padding-top: 0;
@@ -96,6 +103,10 @@
         @media (max-width: 768px) {
           margin-bottom: 12px;
         }
+      }
+
+      ul {
+        gap: 0;
       }
 
       ul:not(:last-child) {

@@ -65,10 +65,9 @@
   }
 
   &__text {
-    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 
     @media screen and (max-width: 768px) {
       margin-bottom: 24px;

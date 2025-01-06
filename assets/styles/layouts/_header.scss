@@ -103,7 +103,8 @@
 }
 
 /* --------------- */
-body._pc {
+body._pc,
+body._hybrid {
   .navbar {
     .navbar-nav {
       .menu-item-has-children {
@@ -161,7 +162,7 @@ body.lock {
   .header {
     position: absolute;
     margin: 0;
-    top: 10px;
+    top: 12px;
     //left: 50%;
     //transform: translate(-50%, 0%);
     //max-width: 1200px;
@@ -551,7 +552,7 @@ body.lock {
 
     &-wrapp {
       background: $white;
-      padding: 24px 0 24px;
+      padding: 10px 0 24px;
       border-radius: 24px;
       overflow: scroll;
       //scrollbar-width: none;
@@ -602,14 +603,14 @@ body.lock {
         }
 
         &:not(:last-child) {
-          margin-bottom: 24px;
+          margin-bottom: 18px;
         }
 
         > a {
           flex: 1 1 auto;
           color: rgba(0, 0, 0, 0.5);
           font-size: 12px;
-          line-height: 30px;
+          line-height: 25px;
           font-weight: 400;
         }
       }

@@ -16,8 +16,12 @@
 
     @media screen and (max-width: 1024px) {
       flex-direction: column;
-      gap: 40px;
+      gap: 44px;
       margin-bottom: 40px;
+    }
+
+    @media screen and (max-width: 768px) {
+      margin-bottom: 20px;
     }
   }
 
@@ -47,15 +51,21 @@
     @media screen and (max-width: 768px) {
       margin-bottom: 0;
       margin-right: 12px;
+      width: 146px;
+      height: 37.8px;
     }
   }
 
   .nav-footer {
-    max-width: 841px;
+    max-width: 870px;
     width: 100%;
+    margin-right: 15px;
+    margin-top: 4px;
 
     @media screen and (max-width: 1024px) {
       max-width: 100%;
+      margin-right: 0;
+      margin-top: 0;
     }
 
     .navbar-nav {
@@ -74,6 +84,7 @@
         display: block;
         columns: 2;
         gap: 0;
+        column-gap: 90px;
       }
 
       > li {
@@ -87,7 +98,7 @@
           width: 100%;
 
           &:not(:last-child) {
-            margin-bottom: 40px;
+            margin-bottom: 48px;
           }
         }
 
@@ -118,8 +129,12 @@
           min-width: max-content;
           z-index: 2;
           transition: all 0.3s ease 0s;
-          margin-top: 28px;
+          margin-top: 34px;
           max-height: max-content !important;
+
+          @media screen and (max-width: 768px) {
+            margin-top: 20px;
+          }
         }
 
         .sub-menu-item {
@@ -135,10 +150,10 @@
           white-space: nowrap;
 
           &:not(:last-child) {
-            margin-bottom: 12px;
+            margin-bottom: 18px;
 
             @media screen and (max-width: 576px) {
-              margin-bottom: 8px;
+              margin-bottom: 13px;
             }
           }
 
@@ -219,17 +234,18 @@
   }
 
   &__copyright {
-    max-width: 376px;
+    width: 376px;
     margin-right: 60px;
 
     @media screen and (max-width: 576px) {
-      max-width: 100%;
+      width: 100%;
       margin-right: 0;
     }
   }
 
   &__doc {
     position: relative;
+    white-space: nowrap;
 
     &::before {
       content: "";

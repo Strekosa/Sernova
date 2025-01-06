@@ -2,22 +2,22 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  margin-bottom: -54px;
+  margin-bottom: -41px;
 
   @media screen and (max-width: 768px) {
     margin-bottom: -145px;
   }
 
   &__wrapp {
-    padding: 108px 0 134px;
+    padding: 108px 0 120px;
 
     @media screen and (max-width: 768px) {
-      padding: 82px 0 185px;
+      padding: 85px 0 185px;
     }
   }
 
   &__breadcrumbs {
-    margin-bottom: 80px;
+    margin-bottom: 77px;
     color: $white;
 
     @media screen and (max-width: 1024px) {
@@ -30,20 +30,21 @@
   }
 
   &__heading {
-    //max-width: 1051px;
-  }
-
-  &__title {
-    margin-bottom: 40px;
-    color: $white;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 
     @media screen and (max-width: 1024px) {
-      margin-bottom: 24px;
+      gap: 24px;
     }
 
     @media screen and (max-width: 768px) {
-      margin-bottom: 16px;
+      gap: 16px;
     }
+  }
+
+  &__title {
+    color: $white;
   }
 
   &__subtitle {
@@ -54,7 +55,7 @@
     letter-spacing: -0.02em;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 30px;
 
     @media screen and (max-width: 1024px) {
       font-size: 22px;

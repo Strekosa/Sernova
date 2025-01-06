@@ -8,6 +8,7 @@ jQuery(document).ready(() => {
 		infinite: true,
 		centerMode: false,
 		cssEase: 'linear',
+		easing: 'ease',
 		variableWidth: true,
 		slidesToShow: 1,
 		slidesToScroll: 1,

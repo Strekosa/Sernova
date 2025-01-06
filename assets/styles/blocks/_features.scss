@@ -1,12 +1,17 @@
 .features {
   padding-top: 40px;
-  padding-bottom: 117px;
+  padding-bottom: 80px;
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
-  margin-bottom: -77px;
+  margin-bottom: -41px;
 
   &__title {
     margin-bottom: 28px;
+    line-height: 62.4px;
+
+    @media screen and (max-width: 768px) {
+      line-height: 38.4px;
+    }
   }
 
   &__list {
@@ -26,7 +31,7 @@
     border-radius: 8px;
 
     @media screen and (max-width: 768px) {
-      padding: 24px 16px;
+      padding: 16px 16px;
     }
 
     @media screen and (max-width: 576px) {

@@ -7,12 +7,18 @@
   margin-bottom: -40px;
 
   &__heading {
-    max-width: 796px;
+    max-width: 805px;
     text-align: center;
+    letter-spacing: -3px;
+
+    @media screen and (max-width: 768px) {
+      letter-spacing: 0;
+    }
   }
 
   &__title {
     color: $otc-blue;
+    font-weight: 500;
   }
 
   &__button {

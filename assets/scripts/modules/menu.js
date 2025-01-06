@@ -2,84 +2,75 @@ document.addEventListener('DOMContentLoaded', function () {
 	"use strict";
 
 	const body = document.body;
-	const iconMenu = document.querySelector('.navbar-toggler');
-	const menuBody = document.querySelector('.navbar-collapse');
 
-	// Function for checking mobile devices
-	const isMobile = {
-		Android: () => navigator.userAgent.match(/Android/i),
-		Opera: () => navigator.userAgent.match(/Opera Mini/i),
-		Windows: () => navigator.userAgent.match(/IEMobile/i),
-		BlackBerry: () => navigator.userAgent.match(/BlackBerry/i),
-		iOS: () => navigator.userAgent.match(/iPhone|iPad|iPod/i),
-		any: function () {
-			return (
-				this.Android() ||
-				this.Opera() ||
-				this.BlackBerry() ||
-				this.iOS() ||
-				this.Windows()
-			);
-		},
+	// Function to check for large touchscreen or hybrid devices
+	const isLargeTouchScreen = () => {
+		return ('ontouchstart' in window || navigator.maxTouchPoints > 1) && window.innerWidth > 1024;
 	};
 
 	// Function to reset active submenus
 	function resetActiveSubMenus() {
-		const activeSubMenus = document.querySelectorAll('.sub-menu.active');
-		const activeMenuArrows = document.querySelectorAll('.nav-desc.active');
-		const activeMenuItems = document.querySelectorAll('.menu-item.active');
-
+		const activeSubMenus = document.querySelectorAll('.sub-menu.active-hover');
 		activeSubMenus.forEach(subMenu => {
 			subMenu.style.maxHeight = '0';
-			subMenu.classList.remove('active');
-		});
-
-		activeMenuArrows.forEach(arrow => {
-			arrow.classList.remove('active');
-		});
-
-		activeMenuItems.forEach(item => {
-			item.classList.remove('active');
+			subMenu.classList.remove('active-hover');
 		});
 	}
 
-	// Logic for mobile devices
-	if (isMobile.any()) {
+	// Logic for large touchscreens and hybrid devices
+	if (isLargeTouchScreen()) {
+		body.classList.add('_hybrid');
+
+		const menuItems = document.querySelectorAll('.menu-item-has-children');
+
+		menuItems.forEach(menuItem => {
+			const subMenu = menuItem.querySelector('.sub-menu');
+
+			// Hover logic
+			menuItem.addEventListener('mouseenter', function () {
+				subMenu.classList.add('active-hover');
+				subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+			});
+
+			menuItem.addEventListener('mouseleave', function () {
+				subMenu.classList.remove('active-hover');
+			});
+
+			// Click logic
+			menuItem.addEventListener('click', function (e) {
+				e.stopPropagation(); // Prevent conflicts with hover
+				if (subMenu.classList.contains('active-hover')) {
+					subMenu.classList.remove('active-hover');
+				} else {
+					resetActiveSubMenus();
+					subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+					subMenu.classList.add('active-hover');
+				}
+			});
+		});
+	} else if (window.innerWidth <= 1024) {
+		// Logic for mobile devices
 		body.classList.add('_touch');
+
 		const menuArrows = document.querySelectorAll('.nav-desc');
 
 		menuArrows.forEach(arrow => {
 			const subMenu = arrow.nextElementSibling;
-			const parentMenuItem = arrow.parentElement;
 
 			arrow.addEventListener('click', function () {
-				const windowHeight = window.innerHeight;
-				const maxMenuHeight = windowHeight - arrow.getBoundingClientRect().bottom;
-
 				if (subMenu.style.maxHeight === '0px' || !subMenu.style.maxHeight) {
-					const subMenuHeight = subMenu.scrollHeight;
-
-					if (subMenuHeight > maxMenuHeight) {
-						subMenu.style.maxHeight = maxMenuHeight + 'px';
-						subMenu.style.overflowY = 'auto';
-					} else {
-						subMenu.style.maxHeight = subMenuHeight + 'px';
-						subMenu.style.overflowY = 'hidden';
-					}
-
-					subMenu.classList.add('active');
-					arrow.classList.add('active');
-					parentMenuItem.classList.add('active');
+					subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+					subMenu.classList.add('active-hover');
 				} else {
 					subMenu.style.maxHeight = '0';
-					subMenu.classList.remove('active');
-					arrow.classList.remove('active');
-					parentMenuItem.classList.remove('active');
+					subMenu.classList.remove('active-hover');
 				}
 			});
 		});
 	} else {
+		// Logic for desktops
 		body.classList.add('_pc');
+
 		const menuItems = document.querySelectorAll('.menu-item-has-children');
 
 		menuItems.forEach(menuItem => {
@@ -89,21 +80,12 @@ document.addEventListener('DOMContentLoaded', function () {
 			arrow.addEventListener('click', function (e) {
 				e.preventDefault();
 
-				menuItems.forEach(item => {
-					const otherArrow = item.querySelector('.nav-desc');
-					const otherSubMenu = item.querySelector('.sub-menu');
-
-					if (item !== menuItem) {
-						otherArrow.classList.remove('active-hover');
-						otherSubMenu.classList.remove('active-hover');
-					}
-				});
-
-				if (arrow.classList.contains('active-hover')) {
-					arrow.classList.remove('active-hover');
+				if (subMenu.classList.contains('active-hover')) {
+					subMenu.style.maxHeight = '0';
 					subMenu.classList.remove('active-hover');
 				} else {
-					arrow.classList.add('active-hover');
+					resetActiveSubMenus();
+					subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
 					subMenu.classList.add('active-hover');
 				}
 			});
@@ -111,6 +93,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	// Logic for a burger menu
+	const iconMenu = document.querySelector('.navbar-toggler');
+	const menuBody = document.querySelector('.navbar-collapse');
+
 	if (iconMenu) {
 		iconMenu.addEventListener('click', function () {
 			body.classList.toggle('lock');

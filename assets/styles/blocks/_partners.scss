@@ -4,7 +4,7 @@
   padding-bottom: 120px;
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
-  margin-bottom: -40px;
+  margin-bottom: -41px;
 
   @media screen and (max-width: 1024px) {
     padding-top: 60px;
@@ -45,6 +45,7 @@
       justify-content: center;
       align-items: flex-start;
       margin-right: 40px;
+      max-width: 490px;
 
       @media screen and (max-width: 1024px) {
         @include adaptiv-width(450, 50);
@@ -52,6 +53,7 @@
 
       @media screen and (max-width: 768px) {
         width: 100%;
+        max-width: 100%;
         margin-right: 0;
         margin-bottom: 40px;
       }
@@ -59,9 +61,11 @@
 
     &-icon {
       max-width: 352px;
+      margin-top: 32px;
 
       @media screen and (max-width: 768px) {
         max-width: 180px;
+        margin-top: 0;
       }
 
       img {
@@ -78,7 +82,11 @@
     }
 
     &-text {
-      gap: 15px;
+      gap: 24px;
+
+      @media screen and (max-width: 768px) {
+        gap: 15px;
+      }
     }
 
     &-link {

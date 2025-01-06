@@ -1,5 +1,5 @@
 .resources {
-  padding-bottom: 80px;
+  padding-bottom: 120px;
   margin-bottom: -40px;
   position: relative;
 
@@ -217,6 +217,8 @@
     }
 
     &-excerpt {
+      font-size: 14px;
+      line-height: 21px;
       display: -webkit-box;
       -webkit-line-clamp: 3; /* Ограничение на 3 строки */
       -webkit-box-orient: vertical;
@@ -230,7 +232,7 @@
       line-height: 18.2px;
       padding-top: 14px;
       margin-top: 24px;
-      border-top: 5px solid $yellow;
+      border-top: 2px solid $yellow;
 
       @media screen and (max-width: 1024px) {
         border-top: 2px solid $yellow;
@@ -247,6 +249,17 @@
     &:hover {
       .resources__item-image {
         transform: scale(1.02);
+      }
+    }
+
+    &.testimonials-item {
+      .resources__item-excerpt {
+        display: flex;
+        flex-direction: column;
+        -webkit-line-clamp: none; /* Ограничение на 3 строки */
+        -webkit-box-orient: vertical;
+        overflow: visible;
+        text-overflow: unset;
       }
     }
   }

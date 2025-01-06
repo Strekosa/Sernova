@@ -130,7 +130,7 @@ get_header(); ?>
 
 					</div>
 
-					<div class="single-careers__content">
+					<div class="single__content">
 						<!-- TEXT -->
 						<?php
 						$current_term = get_queried_object();

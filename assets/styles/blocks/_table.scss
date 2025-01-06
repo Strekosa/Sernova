@@ -1,11 +1,11 @@
 .table {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 15px;
+  padding-bottom: 10px;
   background: $white;
 
   @media screen and (max-width: 768px) {
     padding-top: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 6px;
   }
 
   &__wrapp {
@@ -52,9 +52,11 @@
         padding: 16px 24px;
         border: 1px solid #e5e5e5;
         text-align: left;
+        line-height: 30px;
 
         @media screen and (max-width: 1024px) {
-          padding: 8px 12px;
+          padding: 7px 12px;
+          font-size: 12px;
         }
       }
     }
@@ -64,11 +66,18 @@
     background-color: transparent;
 
     th {
-      padding: 12px 15px;
+      padding: 16px 24px;
       text-align: left;
-      font-weight: bold;
       color: $otc-blue;
       border: 1px solid #e5e5e5;
+      font-weight: 600;
+      line-height: 30px;
+      font-size: 16px;
+
+      @media screen and (max-width: 1024px) {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
     }
   }
 }
